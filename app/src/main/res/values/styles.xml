@@ -1,0 +1,35 @@
+<resources>
+
+    <style name="Widget.Theme.AuthApplication.ActionBar.Fullscreen" parent="Widget.AppCompat.ActionBar">
+        <item name="android:background">@color/black_overlay</item>
+    </style>
+
+    <style name="Widget.Theme.AuthApplication.ButtonBar.Fullscreen" parent="">
+        <item name="android:background">@color/black_overlay</item>
+        <item name="android:buttonBarStyle">?android:attr/buttonBarStyle</item>
+    </style>
+
+    <style name="AuthButton" parent="@style/Widget.MaterialComponents.Button">
+        <item name="android:background">@drawable/ic_ripple</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:padding">0dp</item>
+        <item name="android:fontFamily">"sans-serif-light"</item>
+        <item name="android:textSize">40sp</item>
+        <item name="android:textAlignment">center</item>
+    </style>
+
+    <style name="SymbolTextView" parent="@style/Widget.AppCompat.TextView">
+        <item name="android:fontFamily">"sans-serif-light"</item>
+        <item name="android:gravity">center</item>
+        <item name="android:text">"\u2022"</item>
+        <item name="android:textSize">40sp </item>
+    </style>
+
+    <style name="DialogTextView" parent="@style/Widget.AppCompat.TextView">
+        <item name="android:fontFamily">"sans-serif-condensed"</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+
+</resources>

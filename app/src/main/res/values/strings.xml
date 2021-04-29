@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">AuthApplication</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="authentication">АВТОРИЗАЦИЯ</string>
+    <string name="email">Email</string>
+    <string name="button_register">Регистрация</string>
+    <string name="button_remember">Забыли код?</string>
+    <string name="incorrect_email">Неверный email</string>
+    <string name="button_cancel">Отмена</string>
+    <string name="dlgreg_authentication_title">Регистрация</string>
+    <string name="dlgreg_button">Отправить</string>
+    <string name="dlgreg_email">Email</string>
+    <string name="dlgreg_password">Пароль</string>
+    <string name="dlgreg_passwordcheck">Пароль(еще раз)</string>
+    <string name="dlgreg_error_password">Пароль должен состоять из 5 цифр</string>
+    <string name="dlgreg_error_passwordcheck">Пароли не совпадают</string>
+
+
+</resources>

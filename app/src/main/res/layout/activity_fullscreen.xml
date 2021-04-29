@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="eventhandler"
+            type="example.com.authapplication.AuthViewModel"/>
+    </data>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?attr/fullscreenBackgroundColor"
+        android:theme="@style/ThemeOverlay.AuthApplication.FullscreenContainer"
+        tools:context=".ui.FullscreenActivity">
+
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="21dp"
+            android:text="@string/authentication"
+            android:textColor="@color/design_default_color_on_primary"
+            android:textSize="18sp" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layoutControls"
+            android:layout_width="220dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center">
+
+            <EditText
+                android:id="@+id/editTextEmail"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/email"
+                android:inputType="textEmailAddress"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layoutSymbol"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@+id/editTextEmail"
+                tools:layout_editor_absoluteX="16dp">
+
+                <TextView
+                    android:id="@+id/textViewSymbol0"
+                    style="@style/SymbolTextView"
+                    android:layout_width="30dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toStartOf="@+id/textViewSymbol1"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintHorizontal_chainStyle="spread_inside"
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:layout_editor_absoluteY="0dp" />
+
+                <TextView
+                    android:id="@+id/textViewSymbol1"
+                    style="@style/SymbolTextView"
+                    android:layout_width="30dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toStartOf="@+id/textViewSymbol2"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/textViewSymbol0" />
+
+                <TextView
+                    android:id="@+id/textViewSymbol2"
+                    style="@style/SymbolTextView"
+                    android:layout_width="30dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toStartOf="@+id/textViewSymbol3"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/textViewSymbol1" />
+
+                <TextView
+                    android:id="@+id/textViewSymbol3"
+                    style="@style/SymbolTextView"
+                    android:layout_width="30dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toStartOf="@+id/textViewSymbol4"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/textViewSymbol2" />
+
+                <TextView
+                    android:id="@+id/textViewSymbol4"
+                    style="@style/SymbolTextView"
+                    android:layout_width="30dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/textViewSymbol3" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <Button
+                android:id="@+id/button1"
+                style="@style/AuthButton"
+                android:layout_width="54dp"
+                android:layout_height="54dp"
+                android:layout_marginTop="8dp"
+                android:tag="1"
+                android:text="1"
+                app:layout_constraintEnd_toStartOf="@+id/button2"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/layoutSymbol"
+                android:onClick="@{eventhandler::onClick}"/>
+
+
+            <Button
+                android:id="@+id/button2"
+                style="@style/AuthButton"
+                android:layout_width="54dp"
+                android:layout_height="54dp"
+                android:tag="2"
+                android:text="2"
+                app:layout_constraintBottom_toBottomOf="@+id/button1"
+                app:layout_constraintEnd_toStartOf="@+id/button3"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/button1"
+                app:layout_constraintTop_toTopOf="@+id/button1"
+                android:onClick="@{eventhandler::onClick}"/>
+
+            <Button
+                android:id="@+id/button3"
+                style="@style/AuthButton"
+                android:layout_width="54dp"
+                android:layout_height="54dp"
+                android:tag="3"
+                android:text="3"
+                app:layout_constraintBottom_toBottomOf="@+id/button2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/button2"
+                app:layout_constraintTop_toTopOf="@+id/button2"
+                android:onClick="@{eventhandler::onClick}"/>
+
+            <Button
+                android:id="@+id/button4"
+                style="@style/AuthButton"
+                android:layout_width="54dp"
+                android:layout_height="54dp"
+                android:layout_marginTop="8dp"
+                android:tag="4"
+                android:text="4"
+                app:layout_constraintEnd_toStartOf="@+id/button5"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/button2"
+                android:onClick="@{eventhandler::onClick}"/>
+
+            <Button
+                android:id="@+id/button5"
+                style="@style/AuthButton"
+                android:layout_width="54dp"
+                android:layout_height="54dp"
+                android:tag="5"
+                android:text="5"
+                app:layout_constraintBottom_toBottomOf="@+id/button4"
+                app:layout_constraintEnd_toStartOf="@+id/button6"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/button4"
+                app:layout_constraintTop_toTopOf="@+id/button4"
+                android:onClick="@{eventhandler::onClick}"/>
+
+            <Button
+                android:id="@+id/button6"
+                style="@style/AuthButton"
+                android:layout_width="54dp"
+                android:layout_height="54dp"
+                android:tag="6"
+                android:text="6"
+                app:layout_constraintBottom_toBottomOf="@+id/button5"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/button5"
+                app:layout_constraintTop_toTopOf="@+id/button5"
+                android:onClick="@{eventhandler::onClick}"/>
+
+            <Button
+                android:id="@+id/button7"
+                style="@style/AuthButton"
+                android:layout_width="54dp"
+                android:layout_height="54dp"
+                android:layout_marginTop="8dp"
+                android:tag="7"
+                android:text="7"
+                app:layout_constraintEnd_toStartOf="@+id/button8"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/button4"
+                android:onClick="@{eventhandler::onClick}"/>
+
+            <Button
+                android:id="@+id/button8"
+                style="@style/AuthButton"
+                android:layout_width="54dp"
+                android:layout_height="54dp"
+                android:tag="8"
+                android:text="8"
+                app:layout_constraintBottom_toBottomOf="@+id/button7"
+                app:layout_constraintEnd_toStartOf="@+id/button9"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/button7"
+                app:layout_constraintTop_toTopOf="@+id/button7"
+                android:onClick="@{eventhandler::onClick}"/>
+
+            <Button
+                android:id="@+id/button9"
+                style="@style/AuthButton"
+                android:layout_width="54dp"
+                android:layout_height="54dp"
+                android:tag="9"
+                android:text="9"
+                app:layout_constraintBottom_toBottomOf="@+id/button8"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/button8"
+                app:layout_constraintTop_toTopOf="@+id/button8"
+                android:onClick="@{eventhandler::onClick}"/>
+
+            <Button
+                android:id="@+id/buttonFinger"
+                style="@style/AuthButton"
+                android:layout_width="54dp"
+                android:layout_height="54dp"
+                android:layout_marginTop="8dp"
+                android:alpha="0.7"
+                android:enabled="false"
+                android:insetLeft="13dp"
+                android:onClick="@{eventhandler::onClick}"
+                android:tag="finger"
+                app:icon="@drawable/ic_fingerprint"
+                app:iconSize="30dp"
+                app:layout_constraintEnd_toStartOf="@+id/button0"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/button7" />
+
+            <Button
+                android:id="@+id/button0"
+                style="@style/AuthButton"
+                android:layout_width="54dp"
+                android:layout_height="54dp"
+                android:tag="0"
+                android:text="0"
+                app:layout_constraintBottom_toBottomOf="@+id/buttonFinger"
+                app:layout_constraintEnd_toStartOf="@+id/buttonDel"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/buttonFinger"
+                app:layout_constraintTop_toTopOf="@+id/buttonFinger"
+                android:onClick="@{eventhandler::onClick}"
+                />
+
+            <Button
+                android:id="@+id/buttonDel"
+                style="@style/AuthButton"
+                android:layout_width="54dp"
+                android:layout_height="54dp"
+                android:alpha="0.7"
+                android:insetLeft="15dp"
+                android:onClick="@{eventhandler::onClick}"
+                android:tag="delete"
+                app:icon="@drawable/ic_backspace"
+                app:iconGravity="start"
+                app:iconSize="24dp"
+                app:layout_constraintBottom_toBottomOf="@+id/button0"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/button0"
+                app:layout_constraintTop_toTopOf="@+id/button0" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <LinearLayout
+            android:id="@+id/layerButtons"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_marginBottom="16dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/buttonRegister"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="?attr/selectableItemBackground"
+                android:fontFamily="sans-serif"
+                android:tag="register"
+                android:text="@string/button_register"
+                android:textSize="13sp"
+                android:onClick="@{eventhandler::onClick}"
+                />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="|"
+                android:textSize="19sp" />
+
+            <Button
+                android:id="@+id/buttonRemember"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:fontFamily="sans-serif"
+                android:tag="remember"
+                android:text="@string/button_remember"
+                android:textSize="13sp"
+                android:onClick="@{eventhandler::onClick}"
+                />
+
+        </LinearLayout>
+
+
+    </FrameLayout>
+</layout>
