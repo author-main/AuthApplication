@@ -136,8 +136,13 @@ class FullscreenActivity : AppCompatActivity() {
             AuthValue.SUCCESSFUL -> {
                 log("signin")
             }
+
+            AuthValue.SUCCESSFUL -> {
+                log("signin")
+            }
+
             AuthValue.ERROR_USER_DATA -> {
-                log("error signin")
+                viewModel.password = ""
             }
         }
       //  Log.i("Info", "ok")
