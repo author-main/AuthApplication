@@ -10,16 +10,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
+import example.com.authapplication.*
 import example.com.authapplication.auth_service.FirebaseAuthService
-import example.com.authapplication.AuthValue
-import example.com.authapplication.AuthViewModel
 import example.com.authapplication.interfaces.AuthResultListener
 import example.com.authapplication.interfaces.AuthService
-import example.com.authapplication.R
 import example.com.authapplication.databinding.ActivityFullscreenBinding
 import example.com.authapplication.dialogs.DialogProgress
 import example.com.authapplication.dialogs.DialogRegister
-import example.com.authapplication.log
 import kotlinx.coroutines.*
 
 /**
@@ -75,8 +72,8 @@ class FullscreenActivity : AppCompatActivity() {
         setNightMode()
         val authFireBase = FirebaseAuthService()
         authFireBase.addAuthResult(object: AuthResultListener {
-            override fun onComplete(value: AuthValue) {
-                authComplete(value)
+            override fun onComplete(action: AuthAction, result: AuthValue) {
+                authComplete(action, result)
             }
         })
         addAuthService(authFireBase)
@@ -131,21 +128,8 @@ class FullscreenActivity : AppCompatActivity() {
         }
     }
 
-    private fun authComplete(result: AuthValue){
-        when (result){
-            AuthValue.SUCCESSFUL -> {
-                log("signin")
-            }
+    private fun authComplete(action: AuthAction, result: AuthValue){
 
-            AuthValue.SUCCESSFUL -> {
-                log("signin")
-            }
-
-            AuthValue.ERROR_USER_DATA -> {
-                viewModel.password = ""
-            }
-        }
-      //  Log.i("Info", "ok")
     }
 
     private fun isCorrectEmail(email: String): Boolean{
