@@ -1,18 +1,13 @@
 package example.com.authapplication.ui
 
 import android.annotation.SuppressLint
-import android.content.Context
-import android.content.SharedPreferences
 import android.os.Bundle
-import android.text.Editable
-import android.util.Log
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
-import com.google.firebase.auth.AuthResult
 import example.com.authapplication.*
 import example.com.authapplication.auth_service.FirebaseAuthService
 import example.com.authapplication.interfaces.AuthResultListener
@@ -20,7 +15,7 @@ import example.com.authapplication.interfaces.AuthService
 import example.com.authapplication.databinding.ActivityFullscreenBinding
 import example.com.authapplication.dialogs.DialogProgress
 import example.com.authapplication.dialogs.DialogRegister
-import example.com.authapplication.interfaces.AuthEmailStore
+import example.com.authapplication.auth_mailstore.AuthMailStore
 import kotlinx.coroutines.*
 
 /**
@@ -191,6 +186,7 @@ class FullscreenActivity : AppCompatActivity(), AuthResultListener {
             AuthAction.SIGNIN ->{
                 when (result){
                     AuthValue.SUCCESSFUL -> {
+                        emailAddressStore?.putEmail(dataBinding.editTextEmail.text.toString())
                         //startActivity(Intent(this, MainActivity::class.java))
                         finish()
                     }

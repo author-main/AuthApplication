@@ -1,7 +1,8 @@
-package example.com.authapplication
+package example.com.authapplication.auth_mailstore
 
 import android.content.Context
 import android.content.SharedPreferences
+import example.com.authapplication.AuthApplication
 import example.com.authapplication.interfaces.AuthEmailStore
 
 class AuthMailStore(): AuthEmailStore {
