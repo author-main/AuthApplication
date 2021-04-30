@@ -12,7 +12,7 @@
         android:theme="@style/Theme.AuthApplication">
         <activity
             android:name=".ui.FullscreenActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:configChanges="keyboardHidden|screenSize"
             android:label="@string/app_name"
             android:theme="@style/Theme.AuthApplication.Fullscreen">
             <intent-filter>
