@@ -16,11 +16,7 @@ import java.lang.Exception
 
 class FirebaseAuthService: AuthService {
     private val instance = FirebaseAuth.getInstance()
-    private var authResultListener: AuthResultListener? = null
-
-    override fun addAuthResult(authResultListener: AuthResultListener) {
-        this.authResultListener = authResultListener
-    }
+    override var authResultListener: AuthResultListener? = null
 
     override fun signIn(email: String, password: String) {
         instance.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
@@ -60,6 +56,5 @@ class FirebaseAuthService: AuthService {
         }
         return AuthValue.ERROR_AUTH_SERVICE
     }
-
 
 }
