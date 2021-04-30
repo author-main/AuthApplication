@@ -19,7 +19,7 @@ class FirebaseAuthService: AuthService {
     override var authResultListener: AuthResultListener? = null
 
     override fun signIn(email: String, password: String) {
-        instance.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
+        instance.signInWithEmailAndPassword(email, password+"0").addOnCompleteListener { task ->
             if (task.isSuccessful)
                authResultListener?.onComplete(AuthAction.SIGNIN, AuthValue.SUCCESSFUL)
             else

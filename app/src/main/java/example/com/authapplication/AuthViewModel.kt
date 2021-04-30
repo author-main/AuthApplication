@@ -12,9 +12,6 @@ class AuthViewModel: ViewModel() {
         }
         get() = mPassword
 
-
-
-
     var onChangePassword: ((password: String, showSym: Boolean) -> Unit)? = null
     var onClickButtonFinger: (() -> Unit)? = null
     var onClickButtonRegister: (() -> Unit)? = null

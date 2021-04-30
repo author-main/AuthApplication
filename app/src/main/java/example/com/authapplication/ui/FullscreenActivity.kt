@@ -15,7 +15,10 @@ import example.com.authapplication.interfaces.AuthService
 import example.com.authapplication.databinding.ActivityFullscreenBinding
 import example.com.authapplication.dialogs.DialogProgress
 import example.com.authapplication.dialogs.DialogRegister
-import example.com.authapplication.auth_mailstore.AuthMailStore
+import example.com.authapplication.interfaces.AuthEmailStore
+import example.com.authapplication.interfaces.AuthPasswordStore
+import example.com.authapplication.store.AuthEncryptPasswordStore
+import example.com.authapplication.store.AuthMailStore
 import kotlinx.coroutines.*
 
 class FullscreenActivity : AppCompatActivity(), AuthResultListener {
@@ -31,7 +34,8 @@ class FullscreenActivity : AppCompatActivity(), AuthResultListener {
     private var job: Job? = null
     private var dialogProgress: DialogProgress? = null
     private var authService: AuthService? = null
-    private var emailAddressStore: AuthMailStore? = null
+    private var emailAddressStore: AuthEmailStore? = null
+    private var passwordStore: AuthPasswordStore? = null
 
     private lateinit var dataBinding: ActivityFullscreenBinding
     private lateinit var viewModel: AuthViewModel
@@ -46,6 +50,10 @@ class FullscreenActivity : AppCompatActivity(), AuthResultListener {
 
     private fun addEmailAddressStore(){
         this.emailAddressStore = AuthMailStore()
+    }
+
+    private fun addPasswordStore(){
+        this.passwordStore = AuthEncryptPasswordStore()
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -75,6 +83,7 @@ class FullscreenActivity : AppCompatActivity(), AuthResultListener {
         setNightMode()
         addAuthService()
         addEmailAddressStore()
+        addPasswordStore()
     }
 
     private fun changePassword(password: String, showSym: Boolean){
@@ -183,8 +192,10 @@ class FullscreenActivity : AppCompatActivity(), AuthResultListener {
                 when (result){
                     AuthValue.SUCCESSFUL -> {
                         emailAddressStore?.putEmail(dataBinding.editTextEmail.text.toString())
+                        passwordStore?.putPassword(viewModel.password)
+                        log("password for biometric = ${passwordStore?.getPassword()}")
                         //startActivity(Intent(this, MainActivity::class.java))
-                        finish()
+                      //  finish()
                     }
                     else -> {
                         log("signin error")
