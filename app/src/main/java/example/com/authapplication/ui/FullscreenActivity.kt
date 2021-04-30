@@ -18,10 +18,6 @@ import example.com.authapplication.dialogs.DialogRegister
 import example.com.authapplication.auth_mailstore.AuthMailStore
 import kotlinx.coroutines.*
 
-/**
- * An example full-screen activity that shows and hides the system UI (i.e.
- * status bar and navigation/system bar) with user interaction.
- */
 class FullscreenActivity : AppCompatActivity(), AuthResultListener {
 
     companion object{

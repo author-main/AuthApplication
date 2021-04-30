@@ -28,6 +28,7 @@ fun getColorResource(id: Int): Int =
         catch (e: Exception){
             Color.TRANSPARENT
         }
+
 fun log(value: String){
     Log.v("authapp", value.toUpperCase(Locale.ROOT))
 }
