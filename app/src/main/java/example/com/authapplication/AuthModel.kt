@@ -6,5 +6,4 @@ import androidx.core.content.ContextCompat
 import example.com.authapplication.AuthApplication.Companion.applicationContext
 
 class AuthModel {
-
 }
