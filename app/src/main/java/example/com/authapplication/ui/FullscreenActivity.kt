@@ -59,6 +59,9 @@ class FullscreenActivity : AppCompatActivity(), AuthResultListener {
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        //val firstStart = !(::viewModel.isInitialized)
+
         viewModel =
                 ViewModelProvider(this).get(AuthViewModel::class.java)
 
@@ -84,6 +87,7 @@ class FullscreenActivity : AppCompatActivity(), AuthResultListener {
         addAuthService()
         addEmailAddressStore()
         addPasswordStore()
+        dataBinding.editTextEmail.setText(emailAddressStore?.getEmail())
     }
 
     private fun changePassword(password: String, showSym: Boolean){
@@ -193,7 +197,6 @@ class FullscreenActivity : AppCompatActivity(), AuthResultListener {
                     AuthValue.SUCCESSFUL -> {
                         emailAddressStore?.putEmail(dataBinding.editTextEmail.text.toString())
                         passwordStore?.putPassword(viewModel.password)
-                        log("password for biometric = ${passwordStore?.getPassword()}")
                         //startActivity(Intent(this, MainActivity::class.java))
                       //  finish()
                     }

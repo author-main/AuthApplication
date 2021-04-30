@@ -11,6 +11,7 @@ import example.com.authapplication.interfaces.AuthPasswordStore
 import example.com.authapplication.log
 import java.security.KeyPairGenerator
 import java.security.KeyStore
+import java.security.PrivateKey
 import java.security.PublicKey
 import java.security.spec.AlgorithmParameterSpec
 import javax.crypto.Cipher
@@ -82,7 +83,6 @@ class AuthEncryptPasswordStore: AuthPasswordStore {
                     passwordUTF
             )
             encryptPassword?.let {
-               // log("put encryptedPassword = $encryptPassword")
                 putPreferenceValue(keyPassword, encryptPassword)
                 putPreferenceValue(keyCredentials, true)
             }
@@ -108,17 +108,25 @@ class AuthEncryptPasswordStore: AuthPasswordStore {
         return null
     }
 
+    private fun getDecriptCipher(): Cipher?{
+        val ks = getKeyStore() ?: return null
+        try {
+            val privateKey: PrivateKey = ks.getKey(alias, null) as PrivateKey
+            val cipher: Cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding")
+            cipher.init(Cipher.DECRYPT_MODE, privateKey)
+            return cipher
+        } catch (e: Exception){
+        }
+        return null
+    }
+
+
     override fun getPassword(): String? {
         try {
             val encryptedPassword = sharedPrefs.getString(keyPassword, null) ?: return null
-            //log("get encryptedPassword = $encryptedPassword")
             val passwordBase64: ByteArray = Base64.decode(encryptedPassword, Base64.DEFAULT)
-            //val cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding")
-            //val decriptionKey = getKeyStore()?.getCertificate(alias)?.publicKey ?: return null
-            //cipher.init(Cipher.DECRYPT_MODE, decriptionKey)
-            //val password = cipher.doFinal(passwordBase64)
-            //log("password = $password")
-            return String(encryptedPassword)
+            val password = getDecriptCipher()?.doFinal(passwordBase64) ?: return null
+            return String(password)
         } catch(e:java.lang.Exception){}
         return null
     }

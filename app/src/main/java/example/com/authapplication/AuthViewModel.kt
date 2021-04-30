@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 
 class AuthViewModel: ViewModel() {
 //    private val model: AuthModel = AuthModel()
+//    var email: String? = null
     private var mPassword: String = ""
     var password: String
         set(value) {
@@ -17,6 +18,7 @@ class AuthViewModel: ViewModel() {
     var onClickButtonRegister: (() -> Unit)? = null
     var onClickButtonRemember: (() -> Unit)? = null
     var onAnyClick: (() -> Unit)? = null
+
     fun onClick(v: View) {
         onAnyClick?.invoke()
         val tag = v.tag as String
