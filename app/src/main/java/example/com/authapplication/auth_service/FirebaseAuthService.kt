@@ -8,6 +8,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthEmailException
 import com.google.firebase.auth.FirebaseAuthException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
+import example.com.authapplication.AuthAction
 import example.com.authapplication.AuthValue
 import example.com.authapplication.interfaces.AuthResultListener
 import example.com.authapplication.interfaces.AuthService
@@ -24,9 +25,9 @@ class FirebaseAuthService: AuthService {
     override fun signIn(email: String, password: String) {
         instance.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
             if (task.isSuccessful)
-                authResultListener?.onComplete(AuthValue.SUCCESSFUL)
+               authResultListener?.onComplete(AuthAction.SIGNIN, AuthValue.SUCCESSFUL)
             else
-                authResultListener?.onComplete(getErrorFromException(task.exception))
+               authResultListener?.onComplete(AuthAction.SIGNIN, getErrorFromException(task.exception))
         }
     }
 
@@ -34,9 +35,9 @@ class FirebaseAuthService: AuthService {
         instance.createUserWithEmailAndPassword(email, password+"0").addOnCompleteListener {task ->
 
             if (task.isSuccessful)
-                authResultListener?.onComplete(AuthValue.SUCCESSFUL_REGISTER)
+                authResultListener?.onComplete(AuthAction.REGISTER, AuthValue.SUCCESSFUL)
             else
-                authResultListener?.onComplete(AuthValue.ERROR_REGISTER)
+                authResultListener?.onComplete(AuthAction.REGISTER, getErrorFromException(task.exception))
         }
     }
 
