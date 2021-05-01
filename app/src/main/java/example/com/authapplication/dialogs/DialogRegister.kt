@@ -1,16 +1,13 @@
 package example.com.authapplication.dialogs
 
-import example.com.authapplication.R
 
-
-import android.app.AlertDialog
 import android.app.Dialog
 import android.content.DialogInterface
 import android.os.Bundle
 import android.widget.EditText
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
-import example.com.authapplication.getStringResource
-import example.com.authapplication.validateMail
+import example.com.authapplication.*
 
 class DialogRegister: DialogFragment() {
     private lateinit var editEmail          : EditText
@@ -25,12 +22,13 @@ class DialogRegister: DialogFragment() {
         editPassword        = root.findViewById(R.id.editTextPassword)
         editConfirmPassword = root.findViewById(R.id.editTextConfirmPassword)
         editEmail.setText(arguments?.getString("email"))
-        val builder: AlertDialog.Builder = AlertDialog.Builder(activity)
+        val builder: AlertDialog.Builder = AlertDialog.Builder(activity!!)
         builder.setTitle(R.string.dlgreg_authentication_title)
             .setView(root)
             .setNegativeButton(R.string.button_cancel, null)
             .setPositiveButton(R.string.dlgreg_button, null)
         dialog = builder.create()
+        setDialogStyle(dialog)
         return dialog
     }
 

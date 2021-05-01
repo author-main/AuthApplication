@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 
 class AuthViewModel: ViewModel() {
 //    private val model: AuthModel = AuthModel()
+    var dialogEmail:  String = ""
     private var mPassword: String = ""
     var password: String
         set(value) {

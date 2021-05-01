@@ -18,6 +18,7 @@ import example.com.authapplication.auth_service.FirebaseAuthService
 import example.com.authapplication.databinding.ActivityFullscreenBinding
 import example.com.authapplication.dialogs.DialogProgress
 import example.com.authapplication.dialogs.DialogRegister
+import example.com.authapplication.dialogs.DialogRestore
 import example.com.authapplication.interfaces.AuthEmailStore
 import example.com.authapplication.interfaces.AuthPasswordStore
 import example.com.authapplication.interfaces.AuthResultListener
@@ -171,14 +172,24 @@ class FullscreenActivity : AppCompatActivity(), AuthResultListener {
     }
 
     private fun showDialogRestore(){
-
+        val dialogRestore = DialogRestore()
+        dialogRestore.onRestoreUser = { email: String ->
+            showProgress()
+            viewModel.dialogEmail = email
+            authService?.restoreUser(email!!)
+        }
+        dialogRestore.arguments = Bundle().apply {
+            putString("email", dataBinding.editTextEmail.text.toString())
+        }
+        dialogRestore.isCancelable = false
+        dialogRestore.show(supportFragmentManager, "DIALOG_RESTORE")
     }
 
     private fun showDialogRegister(){
         val dialogRegister = DialogRegister()
         dialogRegister.onRegisterUser = { email: String, password: String ->
             showProgress()
-            emailAddressStore?.putEmail(email)
+            viewModel.dialogEmail = email
             authService?.registerUser(email, password)
         }
         dialogRegister.arguments = Bundle().apply {
@@ -200,6 +211,10 @@ class FullscreenActivity : AppCompatActivity(), AuthResultListener {
 
 
     override fun onComplete(action: AuthAction, result: AuthValue){
+        fun setEmail(){
+            dataBinding.editTextEmail.setText(viewModel.dialogEmail)
+            emailAddressStore?.putEmail(viewModel.dialogEmail)
+        }
         hideProgress()
         if (result != AuthValue.SUCCESSFUL){
             showError(result)
@@ -214,13 +229,11 @@ class FullscreenActivity : AppCompatActivity(), AuthResultListener {
             }
         // * Handling registration
             AuthAction.REGISTER -> {
-               val email = emailAddressStore?.getEmail()
-               if (!email.isNullOrEmpty())
-               dataBinding.editTextEmail.setText(email)
+                setEmail()
             }
         // * Handling restore
             AuthAction.RESTORE -> {
-
+                setEmail()
             }
         }
     }
