@@ -226,6 +226,15 @@ class FullscreenActivity : AppCompatActivity(), AuthResultListener {
     }
 
 
+    private fun showToast(message: String){
+        val toast: Toast = Toast.makeText(this, message, Toast.LENGTH_LONG)
+        val centeredText: Spannable = SpannableString(message)
+        centeredText.setSpan(AlignmentSpan.Standard(Layout.Alignment.ALIGN_CENTER),
+                0, message.length - 1,
+                Spannable.SPAN_INCLUSIVE_INCLUSIVE)
+        toast.show()
+    }
+
     private fun showError(error: AuthValue){
         val idErrorMessage =
             when (error){
@@ -247,13 +256,7 @@ class FullscreenActivity : AppCompatActivity(), AuthResultListener {
                 }
 
             }
-        val errorMessage = getStringResource(idErrorMessage)
-        val toast: Toast = Toast.makeText(this, errorMessage, Toast.LENGTH_LONG)
-        val centeredText: Spannable = SpannableString(errorMessage)
-        centeredText.setSpan(AlignmentSpan.Standard(Layout.Alignment.ALIGN_CENTER),
-                0, errorMessage.length - 1,
-                Spannable.SPAN_INCLUSIVE_INCLUSIVE)
-        toast.show()
+            showToast(getStringResource(idErrorMessage))
     }
 
     private fun accessed(){
