@@ -227,26 +227,27 @@ class FullscreenActivity : AppCompatActivity(), AuthResultListener {
 
 
     private fun showError(error: AuthValue){
-        val errorMessage =
+        val idErrorMessage =
             when (error){
                 AuthValue.ERROR_CONNECTION -> {
-                    getStringResource(R.string.error_connected_internet)
+                    R.string.error_connected_internet
                 }
                 AuthValue.ERROR_ALREADY_EMAIL -> {
-                    getStringResource(R.string.error_already_email)
+                    R.string.error_already_email
                 }
                 AuthValue.ERROR_USER_DATA -> {
-                    getStringResource(R.string.error_login_message)
+                    R.string.error_login_message
                 }
                 AuthValue.ERROR_RESTORE -> {
-                    getStringResource(R.string.error_restore_password)
+                    R.string.error_restore_password
                 }
                 else -> {
                 //AuthValue.ERROR_AUTH_SERVICE ->{
-                    getStringResource(R.string.error_auth_service)
+                    R.string.error_auth_service
                 }
 
             }
+        val errorMessage = getStringResource(idErrorMessage)
         val toast: Toast = Toast.makeText(this, errorMessage, Toast.LENGTH_LONG)
         val centeredText: Spannable = SpannableString(errorMessage)
         centeredText.setSpan(AlignmentSpan.Standard(Layout.Alignment.ALIGN_CENTER),
