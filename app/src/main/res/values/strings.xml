@@ -15,6 +15,11 @@
     <string name="dlgreg_passwordcheck">Пароль(еще раз)</string>
     <string name="dlgreg_error_password">Пароль должен состоять из 5 цифр</string>
     <string name="dlgreg_error_passwordcheck">Пароли не совпадают</string>
+    <string name="error_connected_internet">Проверьте подключение Интернет</string>
+    <string name="error_already_email">Такой email уже зарегистрирован</string>
+    <string name="error_restore_password">Ошибка восстановления пароля</string>
+    <string name="error_login_message">Неверный email или пароль</string>
+    <string name="error_auth_service">Ошибка выполнения запроса</string>
 
 
 </resources>

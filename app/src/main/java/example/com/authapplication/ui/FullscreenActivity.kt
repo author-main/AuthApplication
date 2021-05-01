@@ -2,24 +2,30 @@ package example.com.authapplication.ui
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.text.Layout
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.AlignmentSpan
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import example.com.authapplication.*
 import example.com.authapplication.auth_service.FirebaseAuthService
-import example.com.authapplication.interfaces.AuthResultListener
-import example.com.authapplication.interfaces.AuthService
 import example.com.authapplication.databinding.ActivityFullscreenBinding
 import example.com.authapplication.dialogs.DialogProgress
 import example.com.authapplication.dialogs.DialogRegister
 import example.com.authapplication.interfaces.AuthEmailStore
 import example.com.authapplication.interfaces.AuthPasswordStore
+import example.com.authapplication.interfaces.AuthResultListener
+import example.com.authapplication.interfaces.AuthService
 import example.com.authapplication.store.AuthEncryptPasswordStore
 import example.com.authapplication.store.AuthMailStore
 import kotlinx.coroutines.*
+
 
 class FullscreenActivity : AppCompatActivity(), AuthResultListener {
 
@@ -93,7 +99,7 @@ class FullscreenActivity : AppCompatActivity(), AuthResultListener {
     private fun changePassword(password: String, showSym: Boolean){
         fun hideSym(index: Int){
             symbols[index]?.setTextColor(viewModel.getColorFromResource(
-                R.color.design_default_color_on_primary
+                    R.color.design_default_color_on_primary
             ))
             symbols[index]?.text = "\u2022"
         }
@@ -192,13 +198,13 @@ class FullscreenActivity : AppCompatActivity(), AuthResultListener {
         hideProgress()
         when (action) {
         // * Handling signin
-            AuthAction.SIGNIN ->{
-                when (result){
+            AuthAction.SIGNIN -> {
+                when (result) {
                     AuthValue.SUCCESSFUL -> {
                         emailAddressStore?.putEmail(dataBinding.editTextEmail.text.toString())
                         passwordStore?.putPassword(viewModel.password)
                         //startActivity(Intent(this, MainActivity::class.java))
-                      //  finish()
+                        //  finish()
                     }
                     else -> {
                         log("signin error")
@@ -206,8 +212,8 @@ class FullscreenActivity : AppCompatActivity(), AuthResultListener {
                 }
             }
         // * Handling registration
-            AuthAction.REGISTER ->{
-                when (result){
+            AuthAction.REGISTER -> {
+                when (result) {
                     AuthValue.SUCCESSFUL -> {
                         val email = emailAddressStore?.getEmail()
                         if (!email.isNullOrEmpty())
@@ -220,8 +226,8 @@ class FullscreenActivity : AppCompatActivity(), AuthResultListener {
 
             }
         // * Handling restore
-            AuthAction.RESTORE  ->{
-                when (result){
+            AuthAction.RESTORE -> {
+                when (result) {
                     AuthValue.SUCCESSFUL -> {
 
                     }
@@ -233,5 +239,32 @@ class FullscreenActivity : AppCompatActivity(), AuthResultListener {
         }
     }
 
+
+    private fun showError(error: AuthValue){
+        val errorMessage =
+            when (error){
+                AuthValue.ERROR_CONNECTION -> {
+                    "asdfasdfads"
+                }
+                AuthValue.ERROR_ALREADY_EMAIL -> {
+                    "asdfasdfads"
+                }
+                AuthValue.ERROR_USER_DATA -> {
+                    "asdfasdfads"
+                }
+                else -> {
+                //AuthValue.ERROR_AUTH_SERVICE ->{
+                    "asdfasdfads"
+                }
+
+            }
+        val toast: Toast = Toast.makeText(this, errorMessage, Toast.LENGTH_LONG)
+
+        val centeredText: Spannable = SpannableString(errorMessage)
+        centeredText.setSpan(AlignmentSpan.Standard(Layout.Alignment.ALIGN_CENTER),
+                0, errorMessage.length - 1,
+                Spannable.SPAN_INCLUSIVE_INCLUSIVE)
+        toast.show()
+    }
 
 }

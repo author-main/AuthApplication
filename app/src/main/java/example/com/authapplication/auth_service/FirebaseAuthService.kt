@@ -41,8 +41,13 @@ class FirebaseAuthService: AuthService {
         TODO("Not yet implemented")
     }
 
-    override fun verifyUser(email: String, password: String): Boolean {
-        TODO("Not yet implemented")
+    override fun verifyUser(): Boolean {
+        var complete = false
+        instance.currentUser?.sendEmailVerification()?.addOnCompleteListener { task ->
+            if (task.isSuccessful)
+                complete = true
+        }
+        return complete
     }
 
     private fun getErrorFromException(ex: Exception?): AuthValue{
