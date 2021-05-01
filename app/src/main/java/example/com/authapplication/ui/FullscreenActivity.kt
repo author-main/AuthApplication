@@ -96,9 +96,10 @@ class FullscreenActivity : AppCompatActivity(), AuthResultListener {
         addEmailAddressStore()
         addPasswordStore()
         dataBinding.editTextEmail.setText(emailAddressStore?.getEmail())
+        changePassword(viewModel.password)
     }
 
-    private fun changePassword(password: String, showSym: Boolean){
+    private fun changePassword(password: String, showSym: Boolean = false){
         fun hideSym(index: Int){
             symbols[index]?.setTextColor(viewModel.getColorFromResource(
                     R.color.design_default_color_on_primary
@@ -218,6 +219,8 @@ class FullscreenActivity : AppCompatActivity(), AuthResultListener {
         hideProgress()
         if (result != AuthValue.SUCCESSFUL){
             showError(result)
+            if (action == AuthAction.SIGNIN)
+                viewModel.password = ""
             return
         }
         when (action) {
