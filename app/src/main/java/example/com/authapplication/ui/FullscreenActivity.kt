@@ -210,8 +210,7 @@ class FullscreenActivity : AppCompatActivity(), AuthResultListener {
             AuthAction.SIGNIN -> {
                 emailAddressStore?.putEmail(dataBinding.editTextEmail.text.toString())
                 passwordStore?.putPassword(viewModel.password)
-                //startActivity(Intent(this, MainActivity::class.java))
-                //  finish()
+                accessed()
             }
         // * Handling registration
             AuthAction.REGISTER -> {
@@ -254,6 +253,11 @@ class FullscreenActivity : AppCompatActivity(), AuthResultListener {
                 0, errorMessage.length - 1,
                 Spannable.SPAN_INCLUSIVE_INCLUSIVE)
         toast.show()
+    }
+
+    private fun accessed(){
+        //startActivity(Intent(this, MainActivity::class.java))
+        finish()
     }
 
 }
