@@ -1,13 +1,11 @@
 package example.com.authapplication.auth_service
 
 import android.util.Log
+import com.google.android.gms.tasks.Task
 import com.google.firebase.FirebaseError
 import com.google.firebase.FirebaseException
 import com.google.firebase.FirebaseNetworkException
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseAuthEmailException
-import com.google.firebase.auth.FirebaseAuthException
-import com.google.firebase.auth.FirebaseAuthUserCollisionException
+import com.google.firebase.auth.*
 import example.com.authapplication.AuthAction
 import example.com.authapplication.AuthValue
 import example.com.authapplication.interfaces.AuthResultListener
@@ -18,36 +16,34 @@ class FirebaseAuthService: AuthService {
     private val instance = FirebaseAuth.getInstance()
     override var authResultListener: AuthResultListener? = null
 
+
+    private fun resultTask(task: Task<AuthResult>, action: AuthAction){
+        if (task.isSuccessful)
+            authResultListener?.onComplete(action, AuthValue.SUCCESSFUL)
+        else
+            authResultListener?.onComplete(action, getErrorFromException(task.exception))
+    }
+
     override fun signIn(email: String, password: String) {
         instance.signInWithEmailAndPassword(email, password+"0").addOnCompleteListener { task ->
-            if (task.isSuccessful)
-               authResultListener?.onComplete(AuthAction.SIGNIN, AuthValue.SUCCESSFUL)
-            else
-               authResultListener?.onComplete(AuthAction.SIGNIN, getErrorFromException(task.exception))
+            resultTask(task, AuthAction.SIGNIN)
         }
     }
 
     override fun registerUser(email: String, password: String) {
         instance.createUserWithEmailAndPassword(email, password+"0").addOnCompleteListener {task ->
-
-            if (task.isSuccessful)
-                authResultListener?.onComplete(AuthAction.REGISTER, AuthValue.SUCCESSFUL)
-            else
-                authResultListener?.onComplete(AuthAction.REGISTER, getErrorFromException(task.exception))
+            resultTask(task, AuthAction.REGISTER)
         }
     }
 
     override fun restoreUser(email: String) {
-        TODO("Not yet implemented")
-    }
-
-    override fun verifyUser(): Boolean {
-        var complete = false
-        instance.currentUser?.sendEmailVerification()?.addOnCompleteListener { task ->
+        instance.currentUser?.sendEmailVerification()
+        instance.sendPasswordResetEmail(email).addOnCompleteListener {task ->
             if (task.isSuccessful)
-                complete = true
+                authResultListener?.onComplete(AuthAction.RESTORE, AuthValue.SUCCESSFUL)
+            else
+                authResultListener?.onComplete(AuthAction.RESTORE, AuthValue.ERROR_RESTORE)
         }
-        return complete
     }
 
     private fun getErrorFromException(ex: Exception?): AuthValue{

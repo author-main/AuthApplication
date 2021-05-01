@@ -1,7 +1,5 @@
 <resources>
     <string name="app_name">AuthApplication</string>
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="authentication">АВТОРИЗАЦИЯ</string>
     <string name="email">Email</string>
     <string name="button_register">Регистрация</string>
@@ -20,6 +18,8 @@
     <string name="error_restore_password">Ошибка восстановления пароля</string>
     <string name="error_login_message">Неверный email или пароль</string>
     <string name="error_auth_service">Ошибка выполнения запроса</string>
-
+    <string name="dlgrest_title">Восстановление</string>
+    <string name="dlgrest_message">На ваш email будет отправлено письмо\nдля восстановления пароля</string>
+    <string name="dlgrest_send_message">Запрос на восстановление отправлен</string>
 
 </resources>

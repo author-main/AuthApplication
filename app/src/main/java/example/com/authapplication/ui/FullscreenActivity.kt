@@ -76,6 +76,7 @@ class FullscreenActivity : AppCompatActivity(), AuthResultListener {
         viewModel.onChangePassword =
                 { password: String, showSym: Boolean -> changePassword(password, showSym) }
         viewModel.onClickButtonRegister = {showDialogRegister()}
+        viewModel.onClickButtonRemember = {showDialogRestore()}
 
 
         dataBinding = DataBindingUtil.setContentView(
@@ -169,6 +170,10 @@ class FullscreenActivity : AppCompatActivity(), AuthResultListener {
         return result
     }
 
+    private fun showDialogRestore(){
+
+    }
+
     private fun showDialogRegister(){
         val dialogRegister = DialogRegister()
         dialogRegister.onRegisterUser = { email: String, password: String ->
@@ -196,45 +201,27 @@ class FullscreenActivity : AppCompatActivity(), AuthResultListener {
 
     override fun onComplete(action: AuthAction, result: AuthValue){
         hideProgress()
+        if (result != AuthValue.SUCCESSFUL){
+            showError(result)
+            return
+        }
         when (action) {
         // * Handling signin
             AuthAction.SIGNIN -> {
-                when (result) {
-                    AuthValue.SUCCESSFUL -> {
-                        emailAddressStore?.putEmail(dataBinding.editTextEmail.text.toString())
-                        passwordStore?.putPassword(viewModel.password)
-                        //startActivity(Intent(this, MainActivity::class.java))
-                        //  finish()
-                    }
-                    else -> {
-                        log("signin error")
-                    }
-                }
+                emailAddressStore?.putEmail(dataBinding.editTextEmail.text.toString())
+                passwordStore?.putPassword(viewModel.password)
+                //startActivity(Intent(this, MainActivity::class.java))
+                //  finish()
             }
         // * Handling registration
             AuthAction.REGISTER -> {
-                when (result) {
-                    AuthValue.SUCCESSFUL -> {
-                        val email = emailAddressStore?.getEmail()
-                        if (!email.isNullOrEmpty())
-                            dataBinding.editTextEmail.setText(email)
-                    }
-                    else -> {
-                        log("register error")
-                    }
-                }
-
+               val email = emailAddressStore?.getEmail()
+               if (!email.isNullOrEmpty())
+               dataBinding.editTextEmail.setText(email)
             }
         // * Handling restore
             AuthAction.RESTORE -> {
-                when (result) {
-                    AuthValue.SUCCESSFUL -> {
 
-                    }
-                    else -> {
-                        log("restore error")
-                    }
-                }
             }
         }
     }
@@ -244,22 +231,24 @@ class FullscreenActivity : AppCompatActivity(), AuthResultListener {
         val errorMessage =
             when (error){
                 AuthValue.ERROR_CONNECTION -> {
-                    "asdfasdfads"
+                    getStringResource(R.string.error_connected_internet)
                 }
                 AuthValue.ERROR_ALREADY_EMAIL -> {
-                    "asdfasdfads"
+                    getStringResource(R.string.error_already_email)
                 }
                 AuthValue.ERROR_USER_DATA -> {
-                    "asdfasdfads"
+                    getStringResource(R.string.error_login_message)
+                }
+                AuthValue.ERROR_RESTORE -> {
+                    getStringResource(R.string.error_restore_password)
                 }
                 else -> {
                 //AuthValue.ERROR_AUTH_SERVICE ->{
-                    "asdfasdfads"
+                    getStringResource(R.string.error_auth_service)
                 }
 
             }
         val toast: Toast = Toast.makeText(this, errorMessage, Toast.LENGTH_LONG)
-
         val centeredText: Spannable = SpannableString(errorMessage)
         centeredText.setSpan(AlignmentSpan.Standard(Layout.Alignment.ALIGN_CENTER),
                 0, errorMessage.length - 1,
