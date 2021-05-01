@@ -44,8 +44,8 @@ fun setDialogStyle(dialog: AlertDialog, noTitle: Boolean = false) {
     if (noTitle)
         dialog.window?.requestFeature(Window.FEATURE_NO_TITLE);
 }
-val Int.dp: Int
-    get() = (this / Resources.getSystem().displayMetrics.density).toInt()
+/*val Int.dp: Int
+    get() = (this / Resources.getSystem().displayMetrics.density).toInt()*/
 val Int.px: Int
     get() = (this * Resources.getSystem().displayMetrics.density).toInt()
 fun setWidthDialog(dialog: AlertDialog, widthDP: Int){
