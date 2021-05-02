@@ -109,12 +109,13 @@ class FullscreenActivity : AppCompatActivity(), AuthResultListener, AuthBiometri
         if (biometricAvailable && passwordSaved) {
             dataBinding.buttonFinger.isEnabled = true
             dataBinding.buttonFinger.alpha = 1f
-            promptFingerPrint()
+            if (viewModel.promptBiometricVisible)
+                promptFingerPrint()
         }
     }
 
     private fun promptFingerPrint(){
-        authBiometric?.authentificate(passwordStore?.getCryptoObject())
+        viewModel.promptBiometricVisible = authBiometric?.authentificate(passwordStore?.getCryptoObject()) ?: false
     }
 
     private fun changePassword(password: String, showSym: Boolean = false){
@@ -195,7 +196,7 @@ class FullscreenActivity : AppCompatActivity(), AuthResultListener, AuthBiometri
         dialogRestore.onRestoreUser = { email: String ->
             showProgress()
             viewModel.dialogEmail = email
-            authService?.restoreUser(email!!)
+            authService?.restoreUser(email)
         }
         dialogRestore.arguments = Bundle().apply {
             putString("email", dataBinding.editTextEmail.text.toString())
@@ -295,12 +296,16 @@ class FullscreenActivity : AppCompatActivity(), AuthResultListener, AuthBiometri
             showToast(getStringResource(idErrorMessage))
     }
 
-    override fun onAuthentificationBiometricSuccess() {
-        accessed()
+    override fun onAuthentificationBiometricComplete(result: AuthBiometricValue) {
+        if (result == AuthBiometricValue.SUCCESSFUL)
+            accessed()
+        else
+            viewModel.promptBiometricVisible = false
     }
 
     private fun accessed(){
         //startActivity(Intent(this, MainActivity::class.java))
+        viewModel.promptBiometricVisible = false
         finish()
     }
 

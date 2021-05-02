@@ -1,5 +1,7 @@
 package example.com.authapplication.interfaces
 
+import example.com.authapplication.AuthBiometricValue
+
 interface AuthBiometricResultListener {
-    fun onAuthentificationBiometricSuccess()
+    fun onAuthentificationBiometricComplete(result: AuthBiometricValue)
 }

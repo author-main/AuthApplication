@@ -7,13 +7,11 @@ import androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_STRONG
 import androidx.biometric.BiometricManager.Authenticators.DEVICE_CREDENTIAL
 import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
-import example.com.authapplication.AuthApplication
+import example.com.authapplication.AuthBiometricValue
 import example.com.authapplication.R
 import example.com.authapplication.getStringResource
 import example.com.authapplication.interfaces.AuthBiometric
 import example.com.authapplication.interfaces.AuthBiometricResultListener
-import java.security.KeyPair
-import java.security.KeyPairGenerator
 import javax.crypto.Cipher
 
 
@@ -25,20 +23,22 @@ class AuthFingerPrint(private val context: Context): AuthBiometric {
             BiometricManager.from(context)
                     .canAuthenticate(BIOMETRIC_STRONG or DEVICE_CREDENTIAL) == BiometricManager.BIOMETRIC_SUCCESS
 
-    override fun authentificate(cryptoObject: Cipher?) {
+    override fun authentificate(cryptoObject: Cipher?): Boolean {
         if (!canAuthenticate() || cryptoObject == null)
-            return
+            return false
         val promptInfo = BiometricPrompt.PromptInfo.Builder()
                 .setTitle(getStringResource(R.string.biometric_title))
                 .setConfirmationRequired(false)
                 .setNegativeButtonText(getStringResource(R.string.button_cancel))
                 .build()
 
+
         val biometricPrompt = createBiometricPrompt()
         biometricPrompt.authenticate(
                 promptInfo,
                 BiometricPrompt.CryptoObject(cryptoObject)
         )
+        return true
     }
 
 
@@ -47,11 +47,12 @@ class AuthFingerPrint(private val context: Context): AuthBiometric {
         val callback = object : BiometricPrompt.AuthenticationCallback() {
             override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
                 super.onAuthenticationError(errorCode, errString)
+                authBiometricListener?.onAuthentificationBiometricComplete(AuthBiometricValue.ERROR)
             }
             override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
                 super.onAuthenticationSucceeded(result)
                 // здесь можно извлечь cryptoObject
-                authBiometricListener?.onAuthentificationBiometricSuccess()
+                authBiometricListener?.onAuthentificationBiometricComplete(AuthBiometricValue.SUCCESSFUL)
             }
         }
 
