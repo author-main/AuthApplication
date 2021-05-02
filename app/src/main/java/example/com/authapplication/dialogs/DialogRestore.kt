@@ -42,7 +42,7 @@ class DialogRestore: DialogFragment() {
         dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener {
             performRestore()
         }
-        setWidthDialog(dialog, 300)
+        setWidthDialog(dialog, 310)
     }
 
 }

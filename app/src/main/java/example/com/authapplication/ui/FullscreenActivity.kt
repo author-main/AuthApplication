@@ -104,7 +104,7 @@ class FullscreenActivity : AppCompatActivity(), AuthResultListener, AuthBiometri
         val passwordSaved = passwordStore?.existPasswordStore() ?: false
         if (biometricAvailable && passwordSaved) {
             dataBinding.buttonFinger.isEnabled = true
-            dataBinding.buttonFinger.alpha = 1f
+            dataBinding.buttonFinger.alpha = 0.7f
             if (viewModel.promptBiometricVisible)
                 promptFingerPrint()
         }
