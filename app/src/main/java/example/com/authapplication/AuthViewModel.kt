@@ -1,10 +1,11 @@
 package example.com.authapplication
 
+import android.content.Context
 import android.view.View
 import androidx.lifecycle.ViewModel
 
 class AuthViewModel: ViewModel() {
-//    private val model: AuthModel = AuthModel()
+    private val model: AuthModel = AuthModel()
     var dialogEmail:  String = ""
     var promptBiometricVisible:  Boolean = true
     private var mPassword: String = ""
@@ -19,6 +20,10 @@ class AuthViewModel: ViewModel() {
     var onClickButtonRegister: (() -> Unit)? = null
     var onClickButtonRemember: (() -> Unit)? = null
     var onAnyClick: (() -> Unit)? = null
+
+    fun setModelContext(context: Context){
+        model.context = context
+    }
 
     fun onClick(v: View) {
         onAnyClick?.invoke()

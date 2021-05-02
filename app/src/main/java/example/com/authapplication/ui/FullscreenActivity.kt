@@ -73,18 +73,15 @@ class FullscreenActivity : AppCompatActivity(), AuthResultListener, AuthBiometri
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-  viewModel =
+        viewModel =
                 ViewModelProvider(this).get(AuthViewModel::class.java)
-
+        viewModel.setModelContext(this)
         viewModel.onAnyClick = {hideFocusEmail()}
-
         viewModel.onChangePassword =
                 { password: String, showSym: Boolean -> changePassword(password, showSym) }
         viewModel.onClickButtonRegister = {showDialogRegister()}
         viewModel.onClickButtonRemember = {showDialogRestore()}
         viewModel.onClickButtonFinger   = {promptFingerPrint()}
-
-
         dataBinding = DataBindingUtil.setContentView(
                 this,
                 R.layout.activity_fullscreen
@@ -114,7 +111,7 @@ class FullscreenActivity : AppCompatActivity(), AuthResultListener, AuthBiometri
     }
 
     private fun promptFingerPrint(){
-        viewModel.promptBiometricVisible = authBiometric?.authentificate(passwordStore?.getCryptoObject()) ?: false
+        viewModel.promptBiometricVisible = authBiometric?.authenticate(passwordStore?.getCryptoObject()) ?: false
     }
 
     private fun changePassword(password: String, showSym: Boolean = false){

@@ -14,18 +14,27 @@ import example.com.authapplication.interfaces.*
 import example.com.authapplication.store.AuthEncryptPasswordStore
 import example.com.authapplication.store.AuthMailStore
 
-class AuthModel(private val context: Context): AuthResultListener, AuthBiometricResultListener {
+class AuthModel: AuthResultListener, AuthBiometricResultListener {
+    var context: Context? = null
+    set(value){
+        setContext(value)
+    }
     var onAuthenticationComplete:           ((action: AuthAction, result: AuthValue) -> Unit)? = null
     var onAuthenticationBiometricComplete:  ((result: AuthBiometricValue) -> Unit)? = null
 
     private val authService      : AuthService        = FirebaseAuthService()
     private val emailAddressStore: AuthEmailStore     = AuthMailStore()
     private val passwordStore    : AuthPasswordStore  = AuthEncryptPasswordStore()
-    private val authBiometric    : AuthBiometric      = AuthFingerPrint(context)
+    private var authBiometric    : AuthBiometric?     = null
 
     init{
-        authBiometric.authBiometricListener = this
         authService.authResultListener      = this
+    }
+
+    @JvmName("setContext1")
+    fun setContext(context: Context?){
+        authBiometric = AuthFingerPrint(context!!)
+        authBiometric?.authBiometricListener = this
     }
 
     override fun onAutentificationComplete(action: AuthAction, result: AuthValue) {
@@ -50,10 +59,10 @@ class AuthModel(private val context: Context): AuthResultListener, AuthBiometric
     }
 
     fun canAuthenticateBiometric() =
-        authBiometric.canAuthenticate()
+        authBiometric?.canAuthenticate() ?: false
 
     fun authenticateBiomeric(){
-        authBiometric.authenticate(passwordStore.getCryptoObject())
+        authBiometric?.authenticate(passwordStore.getCryptoObject())
     }
 
 }
