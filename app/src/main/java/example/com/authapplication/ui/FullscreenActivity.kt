@@ -297,6 +297,7 @@ class FullscreenActivity : AppCompatActivity(), AuthResultListener, AuthBiometri
             val password = passwordStore?.getPassword()
             if (!isCorrectEmail(email) || password.isNullOrBlank())
                 return
+            viewModel.password = password
             authService?.signIn(email, password)
         }
         else
