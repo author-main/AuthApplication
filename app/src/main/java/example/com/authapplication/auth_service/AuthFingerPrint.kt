@@ -23,7 +23,7 @@ class AuthFingerPrint(private val context: Context): AuthBiometric {
             BiometricManager.from(context)
                     .canAuthenticate(BIOMETRIC_STRONG or DEVICE_CREDENTIAL) == BiometricManager.BIOMETRIC_SUCCESS
 
-    override fun authentificate(cryptoObject: Cipher?): Boolean {
+    override fun authenticate(cryptoObject: Cipher?): Boolean {
         if (!canAuthenticate() || cryptoObject == null)
             return false
         val promptInfo = BiometricPrompt.PromptInfo.Builder()
