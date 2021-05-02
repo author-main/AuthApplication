@@ -40,11 +40,11 @@ class AuthModel: AuthResultListener, AuthBiometricResultListener {
         onAuthenticationBiometricComplete?.invoke(result)
     }
 
-    fun saveEmail(value: String){
+    fun saveEmailAddress(value: String){
         emailAddressStore.putEmail(value)
     }
 
-    fun loadEmail(): String? =
+    fun loadEmailAddress(): String? =
         emailAddressStore.getEmail()
 
     fun isStoredPassword() = passwordStore.existPasswordStore()
