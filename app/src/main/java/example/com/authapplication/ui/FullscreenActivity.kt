@@ -17,6 +17,9 @@ import androidx.lifecycle.ViewModelProvider
 import example.com.authapplication.*
 import example.com.authapplication.auth_service.AuthFingerPrint
 import example.com.authapplication.auth_service.FirebaseAuthService
+import example.com.authapplication.data.AuthAction
+import example.com.authapplication.data.AuthBiometricValue
+import example.com.authapplication.data.AuthValue
 import example.com.authapplication.databinding.ActivityFullscreenBinding
 import example.com.authapplication.dialogs.DialogProgress
 import example.com.authapplication.dialogs.DialogRegister
@@ -50,8 +53,6 @@ class FullscreenActivity : AppCompatActivity(), AuthResultListener, AuthBiometri
 
 
     private fun addAuthService(){
-        /*val authFireBase = FirebaseAuthService()
-        authFireBase.authResultListener = this*/
         authService = FirebaseAuthService()
         authService?.authResultListener = this
     }
@@ -72,9 +73,7 @@ class FullscreenActivity : AppCompatActivity(), AuthResultListener, AuthBiometri
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //val firstStart = !(::viewModel.isInitialized)
-
-        viewModel =
+  viewModel =
                 ViewModelProvider(this).get(AuthViewModel::class.java)
 
         viewModel.onAnyClick = {hideFocusEmail()}
@@ -184,7 +183,6 @@ class FullscreenActivity : AppCompatActivity(), AuthResultListener, AuthBiometri
             editTextMail.requestFocus()
             val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
             imm.showSoftInput(editTextMail, 0)
-            //imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
         }
         else
             editTextMail.error = null

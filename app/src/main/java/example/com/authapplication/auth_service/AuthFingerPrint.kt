@@ -7,7 +7,7 @@ import androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_STRONG
 import androidx.biometric.BiometricManager.Authenticators.DEVICE_CREDENTIAL
 import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
-import example.com.authapplication.AuthBiometricValue
+import example.com.authapplication.data.AuthBiometricValue
 import example.com.authapplication.R
 import example.com.authapplication.getStringResource
 import example.com.authapplication.interfaces.AuthBiometric

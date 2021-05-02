@@ -6,8 +6,8 @@ import com.google.firebase.FirebaseError
 import com.google.firebase.FirebaseException
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.*
-import example.com.authapplication.AuthAction
-import example.com.authapplication.AuthValue
+import example.com.authapplication.data.AuthAction
+import example.com.authapplication.data.AuthValue
 import example.com.authapplication.interfaces.AuthResultListener
 import example.com.authapplication.interfaces.AuthService
 import java.lang.Exception

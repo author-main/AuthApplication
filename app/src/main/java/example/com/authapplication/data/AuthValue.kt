@@ -1,4 +1,4 @@
-package example.com.authapplication
+package example.com.authapplication.data
 
 enum class AuthValue {
     SUCCESSFUL,
