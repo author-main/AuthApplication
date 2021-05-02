@@ -39,6 +39,7 @@ fun log(value: String){
 }
 
 fun setDialogStyle(dialog: AlertDialog, noTitle: Boolean = false) {
+    dialog.setCanceledOnTouchOutside(false)
     dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
     dialog.window?.setBackgroundDrawableResource(R.drawable.background_dialog)
     if (noTitle)

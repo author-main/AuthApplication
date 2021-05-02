@@ -196,7 +196,6 @@ class FullscreenActivity : AppCompatActivity(), AuthResultListener, AuthBiometri
         dialogRestore.arguments = Bundle().apply {
             putString("email", dataBinding.editTextEmail.text.toString())
         }
-        dialogRestore.isCancelable = false
         dialogRestore.show(supportFragmentManager, "DIALOG_RESTORE")
     }
 
@@ -210,7 +209,6 @@ class FullscreenActivity : AppCompatActivity(), AuthResultListener, AuthBiometri
         dialogRegister.arguments = Bundle().apply {
             putString("email", dataBinding.editTextEmail.text.toString())
         }
-        dialogRegister.isCancelable = false
         dialogRegister.show(supportFragmentManager, "DIALOG_REGISTER")
     }
 
