@@ -4,5 +4,5 @@ import example.com.authapplication.AuthAction
 import example.com.authapplication.AuthValue
 
 interface AuthResultListener {
-    fun onComplete(action: AuthAction, result: AuthValue)
+    fun onAutentificationComplete(action: AuthAction, result: AuthValue)
 }

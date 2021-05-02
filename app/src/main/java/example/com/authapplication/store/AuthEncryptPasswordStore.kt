@@ -98,6 +98,7 @@ class AuthEncryptPasswordStore: AuthPasswordStore {
         sharedPrefs.edit().remove(key).apply()
     }
 
+
     private fun encrypt(encryptionKey: PublicKey, data: ByteArray): String? {
         try {
             val cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding")
@@ -141,6 +142,18 @@ class AuthEncryptPasswordStore: AuthPasswordStore {
         if (value is Boolean)
             sharedPrefs.edit().putBoolean(key, value).apply()
 
+    }
+
+    override fun getCryptoObject(): Cipher?{
+        val keyStore = getKeyStore() ?: return null
+        try {
+            val privateKey: PrivateKey = keyStore.getKey(alias, null) as PrivateKey
+            val cipher: Cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding")
+            cipher.init(Cipher.DECRYPT_MODE, privateKey)
+            return cipher
+        } catch (e: Exception){
+        }
+        return null
     }
 
 

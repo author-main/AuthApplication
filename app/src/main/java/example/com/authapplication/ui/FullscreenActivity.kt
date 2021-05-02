@@ -1,6 +1,7 @@
 package example.com.authapplication.ui
 
 import android.annotation.SuppressLint
+import android.hardware.biometrics.BiometricManager
 import android.os.Bundle
 import android.text.Layout
 import android.text.Spannable
@@ -14,21 +15,19 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import example.com.authapplication.*
+import example.com.authapplication.auth_service.AuthFingerPrint
 import example.com.authapplication.auth_service.FirebaseAuthService
 import example.com.authapplication.databinding.ActivityFullscreenBinding
 import example.com.authapplication.dialogs.DialogProgress
 import example.com.authapplication.dialogs.DialogRegister
 import example.com.authapplication.dialogs.DialogRestore
-import example.com.authapplication.interfaces.AuthEmailStore
-import example.com.authapplication.interfaces.AuthPasswordStore
-import example.com.authapplication.interfaces.AuthResultListener
-import example.com.authapplication.interfaces.AuthService
+import example.com.authapplication.interfaces.*
 import example.com.authapplication.store.AuthEncryptPasswordStore
 import example.com.authapplication.store.AuthMailStore
 import kotlinx.coroutines.*
 
 
-class FullscreenActivity : AppCompatActivity(), AuthResultListener {
+class FullscreenActivity : AppCompatActivity(), AuthResultListener, AuthBiometricResultListener {
 
     companion object{
         private fun setNightMode() {
@@ -43,6 +42,7 @@ class FullscreenActivity : AppCompatActivity(), AuthResultListener {
     private var authService: AuthService? = null
     private var emailAddressStore: AuthEmailStore? = null
     private var passwordStore: AuthPasswordStore? = null
+    private var authBiometric: AuthBiometric? = null
 
     private lateinit var dataBinding: ActivityFullscreenBinding
     private lateinit var viewModel: AuthViewModel
@@ -50,23 +50,28 @@ class FullscreenActivity : AppCompatActivity(), AuthResultListener {
 
 
     private fun addAuthService(){
-        val authFireBase = FirebaseAuthService()
-        authFireBase.authResultListener = this
-        this.authService = authFireBase
+        /*val authFireBase = FirebaseAuthService()
+        authFireBase.authResultListener = this*/
+        authService = FirebaseAuthService()
+        authService?.authResultListener = this
     }
 
     private fun addEmailAddressStore(){
-        this.emailAddressStore = AuthMailStore()
+        emailAddressStore = AuthMailStore()
     }
 
     private fun addPasswordStore(){
-        this.passwordStore = AuthEncryptPasswordStore()
+        passwordStore = AuthEncryptPasswordStore()
+    }
+
+    private fun addAuthBiometric(){
+        authBiometric = AuthFingerPrint(this)
+        authBiometric?.authBiometricListener = this
     }
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         //val firstStart = !(::viewModel.isInitialized)
 
         viewModel =
@@ -78,6 +83,7 @@ class FullscreenActivity : AppCompatActivity(), AuthResultListener {
                 { password: String, showSym: Boolean -> changePassword(password, showSym) }
         viewModel.onClickButtonRegister = {showDialogRegister()}
         viewModel.onClickButtonRemember = {showDialogRestore()}
+        viewModel.onClickButtonFinger   = {promptFingerPrint()}
 
 
         dataBinding = DataBindingUtil.setContentView(
@@ -95,8 +101,20 @@ class FullscreenActivity : AppCompatActivity(), AuthResultListener {
         addAuthService()
         addEmailAddressStore()
         addPasswordStore()
+        addAuthBiometric()
         dataBinding.editTextEmail.setText(emailAddressStore?.getEmail())
         changePassword(viewModel.password)
+        val biometricAvailable = authBiometric?.canAuthenticate() ?: false
+        val passwordSaved = passwordStore?.existPasswordStore() ?: false
+        if (biometricAvailable && passwordSaved) {
+            dataBinding.buttonFinger.isEnabled = true
+            dataBinding.buttonFinger.alpha = 1f
+            promptFingerPrint()
+        }
+    }
+
+    private fun promptFingerPrint(){
+        authBiometric?.authentificate(passwordStore?.getCryptoObject())
     }
 
     private fun changePassword(password: String, showSym: Boolean = false){
@@ -211,8 +229,8 @@ class FullscreenActivity : AppCompatActivity(), AuthResultListener {
     }
 
 
-    override fun onComplete(action: AuthAction, result: AuthValue){
-        fun setEmail(){
+    override fun onAutentificationComplete(action: AuthAction, result: AuthValue){
+        fun updateEmail(){
             dataBinding.editTextEmail.setText(viewModel.dialogEmail)
             emailAddressStore?.putEmail(viewModel.dialogEmail)
         }
@@ -232,11 +250,13 @@ class FullscreenActivity : AppCompatActivity(), AuthResultListener {
             }
         // * Handling registration
             AuthAction.REGISTER -> {
-                setEmail()
+                updateEmail()
+                showToast(getString(R.string.dlgreg_success))
             }
         // * Handling restore
             AuthAction.RESTORE -> {
-                setEmail()
+                updateEmail()
+                showToast(getString(R.string.dlgrest_success))
             }
         }
     }
@@ -273,6 +293,10 @@ class FullscreenActivity : AppCompatActivity(), AuthResultListener {
 
             }
             showToast(getStringResource(idErrorMessage))
+    }
+
+    override fun onAuthentificationBiometricSuccess() {
+        accessed()
     }
 
     private fun accessed(){

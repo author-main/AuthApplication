@@ -19,9 +19,9 @@ class FirebaseAuthService: AuthService {
 
     private fun resultTask(task: Task<AuthResult>, action: AuthAction){
         if (task.isSuccessful)
-            authResultListener?.onComplete(action, AuthValue.SUCCESSFUL)
+            authResultListener?.onAutentificationComplete(action, AuthValue.SUCCESSFUL)
         else
-            authResultListener?.onComplete(action, getErrorFromException(task.exception))
+            authResultListener?.onAutentificationComplete(action, getErrorFromException(task.exception))
     }
 
     override fun signIn(email: String, password: String) {
@@ -40,9 +40,9 @@ class FirebaseAuthService: AuthService {
         instance.currentUser?.sendEmailVerification()
         instance.sendPasswordResetEmail(email).addOnCompleteListener {task ->
             if (task.isSuccessful)
-                authResultListener?.onComplete(AuthAction.RESTORE, AuthValue.SUCCESSFUL)
+                authResultListener?.onAutentificationComplete(AuthAction.RESTORE, AuthValue.SUCCESSFUL)
             else
-                authResultListener?.onComplete(AuthAction.RESTORE, AuthValue.ERROR_RESTORE)
+                authResultListener?.onAutentificationComplete(AuthAction.RESTORE, AuthValue.ERROR_RESTORE)
         }
     }
 
