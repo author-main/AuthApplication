@@ -1,10 +1,6 @@
 package example.com.authapplication
 
 import android.content.Context
-import android.graphics.Color
-import android.util.Patterns
-import androidx.core.content.ContextCompat
-import example.com.authapplication.AuthApplication.Companion.applicationContext
 import example.com.authapplication.auth_service.AuthFingerPrint
 import example.com.authapplication.auth_service.FirebaseAuthService
 import example.com.authapplication.data.AuthAction
@@ -21,7 +17,6 @@ class AuthModel: AuthResultListener, AuthBiometricResultListener {
     }
     var onAuthenticationComplete:           ((action: AuthAction, result: AuthValue) -> Unit)? = null
     var onAuthenticationBiometricComplete:  ((result: AuthBiometricValue) -> Unit)? = null
-
     private val authService      : AuthService        = FirebaseAuthService()
     private val emailAddressStore: AuthEmailStore     = AuthMailStore()
     private val passwordStore    : AuthPasswordStore  = AuthEncryptPasswordStore()
