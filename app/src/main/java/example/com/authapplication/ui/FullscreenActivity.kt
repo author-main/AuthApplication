@@ -135,8 +135,10 @@ class FullscreenActivity : AppCompatActivity(), AuthResultListener, AuthBiometri
                 delay(400)
                 symbols[index]?.text = "\u2022"
                 val email = dataBinding.editTextEmail.text.toString()
-                if (password.length == 5 && isCorrectEmail(email))
+                if (password.length == 5 && isCorrectEmail(email)) {
+                    showProgress()
                     authService?.signIn(email, password)
+                }
             }
         } else {
             var color = viewModel.getColorFromResource(
