@@ -27,7 +27,7 @@ class AuthModel: AuthResultListener, AuthBiometricResultListener {
     }
 
     @JvmName("setContext1")
-    fun setContext(context: Context?){
+    private fun setContext(context: Context?){
         authBiometric = AuthFingerPrint(context!!)
         authBiometric?.authBiometricListener = this
     }
