@@ -292,8 +292,13 @@ class FullscreenActivity : AppCompatActivity(), AuthResultListener, AuthBiometri
     }
 
     override fun onAuthentificationBiometricComplete(result: AuthBiometricValue) {
-        if (result == AuthBiometricValue.SUCCESSFUL)
-            accessed()
+        if (result == AuthBiometricValue.SUCCESSFUL) {
+            val email    = dataBinding.editTextEmail.text.toString()
+            val password = passwordStore?.getPassword()
+            if (!isCorrectEmail(email) || password.isNullOrBlank())
+                return
+            authService?.signIn(email, password)
+        }
         else
             viewModel.promptBiometricVisible = false
     }

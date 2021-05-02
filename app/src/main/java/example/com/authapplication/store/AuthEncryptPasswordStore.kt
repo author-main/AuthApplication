@@ -144,17 +144,7 @@ class AuthEncryptPasswordStore: AuthPasswordStore {
 
     }
 
-    override fun getCryptoObject(): Cipher?{
-        val keyStore = getKeyStore() ?: return null
-        try {
-            val privateKey: PrivateKey = keyStore.getKey(alias, null) as PrivateKey
-            val cipher: Cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding")
-            cipher.init(Cipher.DECRYPT_MODE, privateKey)
-            return cipher
-        } catch (e: Exception){
-        }
-        return null
-    }
-
+    override fun getCryptoObject(): Cipher? =
+        getDecriptCipher()
 
 }
