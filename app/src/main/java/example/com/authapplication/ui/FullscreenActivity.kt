@@ -296,6 +296,7 @@ class FullscreenActivity : AppCompatActivity(), AuthResultListener, AuthBiometri
             if (!isCorrectEmail(email) || password.isNullOrBlank())
                 return
             viewModel.password = password
+            showProgress()
             authService?.signIn(email, password)
         }
         else
