@@ -53,11 +53,31 @@ class AuthModel: AuthResultListener, AuthBiometricResultListener {
         passwordStore.putPassword(value)
     }
 
+    fun loadPassword(cipher: Cipher) =
+        passwordStore.getPassword(cipher)
+
+
+
+
     fun canAuthenticateBiometric() =
         authBiometric?.canAuthenticate() ?: false
 
-    fun authenticateBiomeric(){
-        authBiometric?.authenticate(passwordStore.getCryptoObject())
+    fun authenticateBiomeric() =
+        authBiometric?.authenticate(passwordStore.getCryptoObject()) ?: false
+
+
+
+    fun signIn(email: String, password: String) {
+        authService.signIn(email, password)
     }
+
+    fun registerUser(email: String, password: String) {
+        authService.registerUser(email, password)
+    }
+
+    fun restoreUser(email: String) {
+        authService.restoreUser(email)
+    }
+
 
 }

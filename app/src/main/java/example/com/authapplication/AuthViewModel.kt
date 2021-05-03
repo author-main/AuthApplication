@@ -86,11 +86,26 @@ class AuthViewModel: ViewModel() {
         model.savePassword(value)
     }
 
+    fun loadPassword(cipher: Cipher) =
+        model.loadPassword(cipher)
+
+
     fun canAuthenticateBiometric() =
         model.canAuthenticateBiometric()
 
-    fun authenticateBiomeric(){
+    fun authenticateBiomeric() =
         model.authenticateBiomeric()
+
+    fun signIn(email: String, password: String) {
+        model.signIn(email, password)
+    }
+
+    fun registerUser(email: String, password: String) {
+        model.registerUser(email, password)
+    }
+
+    fun restoreUser(email: String) {
+        model.restoreUser(email)
     }
 
 

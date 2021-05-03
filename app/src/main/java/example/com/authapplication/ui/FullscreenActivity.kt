@@ -30,7 +30,7 @@ import kotlinx.coroutines.*
 import javax.crypto.Cipher
 
 
-class FullscreenActivity : AppCompatActivity(), AuthResultListener, AuthBiometricResultListener {
+class FullscreenActivity : AppCompatActivity() {
 
     companion object{
         private fun setNightMode() {
@@ -42,33 +42,10 @@ class FullscreenActivity : AppCompatActivity(), AuthResultListener, AuthBiometri
 
     private var job: Job? = null
     private var dialogProgress: DialogProgress? = null
-    private var authService: AuthService? = null
-    private var emailAddressStore: AuthEmailStore? = null
-    private var passwordStore: AuthPasswordStore? = null
-    private var authBiometric: AuthBiometric? = null
-
     private lateinit var dataBinding: ActivityFullscreenBinding
     private lateinit var viewModel: AuthViewModel
     private val symbols = arrayOfNulls<TextView>(5)
 
-
-    private fun addAuthService(){
-        authService = FirebaseAuthService()
-        authService?.authResultListener = this
-    }
-
-    private fun addEmailAddressStore(){
-        emailAddressStore = AuthMailStore()
-    }
-
-    private fun addPasswordStore(){
-        passwordStore = AuthEncryptPasswordStore()
-    }
-
-    private fun addAuthBiometric(){
-        authBiometric = AuthFingerPrint(this)
-        authBiometric?.authBiometricListener = this
-    }
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -82,6 +59,12 @@ class FullscreenActivity : AppCompatActivity(), AuthResultListener, AuthBiometri
         viewModel.onClickButtonRegister = {showDialogRegister()}
         viewModel.onClickButtonRemember = {showDialogRestore()}
         viewModel.onClickButtonFinger   = {promptFingerPrint()}
+        viewModel.onAuthenticationComplete = {action: AuthAction, result: AuthValue ->
+            authenticationComplete(action, result)
+        }
+        viewModel.onAuthenticationBiometricComplete = {cryptoObject: Cipher? ->
+            authenticationBiometricComplete(cryptoObject)
+        }
         dataBinding = DataBindingUtil.setContentView(
                 this,
                 R.layout.activity_fullscreen
@@ -94,14 +77,12 @@ class FullscreenActivity : AppCompatActivity(), AuthResultListener, AuthBiometri
         dataBinding.eventhandler = viewModel
         supportActionBar?.hide()
         setNightMode()
-        addAuthService()
-        addEmailAddressStore()
-        addPasswordStore()
-        addAuthBiometric()
-        dataBinding.editTextEmail.setText(emailAddressStore?.getEmail())
+        dataBinding.editTextEmail.setText(viewModel.loadEmailAddress())
         changePassword(viewModel.password)
-        val biometricAvailable = authBiometric?.canAuthenticate() ?: false
-        val passwordSaved = passwordStore?.existPasswordStore() ?: false
+
+        val biometricAvailable = viewModel.canAuthenticateBiometric()
+        val passwordSaved = viewModel.isStoredPassword()
+
         if (biometricAvailable && passwordSaved) {
             dataBinding.buttonFinger.isEnabled = true
             dataBinding.buttonFinger.alpha = 0.7f
@@ -111,7 +92,7 @@ class FullscreenActivity : AppCompatActivity(), AuthResultListener, AuthBiometri
     }
 
     private fun promptFingerPrint(){
-        viewModel.promptBiometricVisible = authBiometric?.authenticate(passwordStore?.getCryptoObject()) ?: false
+        viewModel.promptBiometricVisible = viewModel.authenticateBiomeric()
     }
 
     private fun changePassword(password: String, showSym: Boolean = false){
@@ -137,7 +118,7 @@ class FullscreenActivity : AppCompatActivity(), AuthResultListener, AuthBiometri
                 val email = dataBinding.editTextEmail.text.toString()
                 if (password.length == 5 && isCorrectEmail(email)) {
                     showProgress()
-                    authService?.signIn(email, password)
+                    viewModel.signIn(email, password)
                 }
             }
         } else {
@@ -193,7 +174,7 @@ class FullscreenActivity : AppCompatActivity(), AuthResultListener, AuthBiometri
         dialogRestore.onRestoreUser = { email: String ->
             showProgress()
             viewModel.dialogEmail = email
-            authService?.restoreUser(email)
+            viewModel.restoreUser(email)
         }
         dialogRestore.arguments = Bundle().apply {
             putString("email", dataBinding.editTextEmail.text.toString())
@@ -206,7 +187,7 @@ class FullscreenActivity : AppCompatActivity(), AuthResultListener, AuthBiometri
         dialogRegister.onRegisterUser = { email: String, password: String ->
             showProgress()
             viewModel.dialogEmail = email
-            authService?.registerUser(email, password)
+            viewModel.registerUser(email, password)
         }
         dialogRegister.arguments = Bundle().apply {
             putString("email", dataBinding.editTextEmail.text.toString())
@@ -222,39 +203,6 @@ class FullscreenActivity : AppCompatActivity(), AuthResultListener, AuthBiometri
 
     private fun hideProgress() {
         dialogProgress?.dismiss()
-    }
-
-
-    override fun onAutentificationComplete(action: AuthAction, result: AuthValue){
-        fun updateEmail(){
-            dataBinding.editTextEmail.setText(viewModel.dialogEmail)
-            emailAddressStore?.putEmail(viewModel.dialogEmail)
-        }
-        hideProgress()
-        if (result != AuthValue.SUCCESSFUL){
-            showError(result)
-            if (action == AuthAction.SIGNIN)
-                viewModel.password = ""
-            return
-        }
-        when (action) {
-        // * Handling signin
-            AuthAction.SIGNIN -> {
-                emailAddressStore?.putEmail(dataBinding.editTextEmail.text.toString())
-                passwordStore?.putPassword(viewModel.password)
-                accessed()
-            }
-        // * Handling registration
-            AuthAction.REGISTER -> {
-                updateEmail()
-                showToast(getString(R.string.dlgreg_success))
-            }
-        // * Handling restore
-            AuthAction.RESTORE -> {
-                updateEmail()
-                showToast(getString(R.string.dlgrest_success))
-            }
-        }
     }
 
 
@@ -291,19 +239,54 @@ class FullscreenActivity : AppCompatActivity(), AuthResultListener, AuthBiometri
             showToast(getStringResource(idErrorMessage))
     }
 
-    override fun onAuthentificationBiometricComplete(cryptoObject: Cipher?) {
+
+    private fun authenticationComplete(action: AuthAction, result: AuthValue){
+        fun updateEmail(){
+            dataBinding.editTextEmail.setText(viewModel.dialogEmail)
+            viewModel.saveEmailAddress(viewModel.dialogEmail)
+        }
+        hideProgress()
+        if (result != AuthValue.SUCCESSFUL){
+            showError(result)
+            if (action == AuthAction.SIGNIN)
+                viewModel.password = ""
+            return
+        }
+        when (action) {
+            // * Handling signin
+            AuthAction.SIGNIN -> {
+                viewModel.saveEmailAddress(dataBinding.editTextEmail.text.toString())
+                viewModel.savePassword(viewModel.password)
+                accessed()
+            }
+            // * Handling registration
+            AuthAction.REGISTER -> {
+                updateEmail()
+                showToast(getString(R.string.dlgreg_success))
+            }
+            // * Handling restore
+            AuthAction.RESTORE -> {
+                updateEmail()
+                showToast(getString(R.string.dlgrest_success))
+            }
+        }
+    }
+
+
+    private fun authenticationBiometricComplete(cryptoObject: Cipher?) {
         if (cryptoObject != null) {
             val email    = dataBinding.editTextEmail.text.toString()
-            val password = passwordStore?.getPassword(cryptoObject)
+            val password = viewModel.loadPassword(cryptoObject)
             if (!isCorrectEmail(email) || password.isNullOrBlank())
                 return
             viewModel.password = password
             showProgress()
-            authService?.signIn(email, password)
+            viewModel.signIn(email, password)
         }
         else
             viewModel.promptBiometricVisible = false
     }
+
 
     private fun accessed(){
         //startActivity(Intent(this, MainActivity::class.java))
