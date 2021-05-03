@@ -1,9 +1,6 @@
-package example.com.authapplication.auth_service
+package example.com.authapplication.services
 
-import android.util.Log
 import com.google.android.gms.tasks.Task
-import com.google.firebase.FirebaseError
-import com.google.firebase.FirebaseException
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.*
 import example.com.authapplication.data.AuthAction

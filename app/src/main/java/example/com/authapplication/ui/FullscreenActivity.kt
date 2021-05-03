@@ -20,7 +20,6 @@ import example.com.authapplication.databinding.ActivityFullscreenBinding
 import example.com.authapplication.dialogs.DialogProgress
 import example.com.authapplication.dialogs.DialogRegister
 import example.com.authapplication.dialogs.DialogRestore
-import example.com.authapplication.interfaces.*
 import example.com.authapplication.mvvm.AuthViewModel
 import kotlinx.coroutines.*
 import javax.crypto.Cipher

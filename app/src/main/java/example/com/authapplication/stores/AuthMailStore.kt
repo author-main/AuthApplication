@@ -1,4 +1,4 @@
-package example.com.authapplication.store
+package example.com.authapplication.stores
 
 import android.content.Context
 import android.content.SharedPreferences

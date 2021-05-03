@@ -1,13 +1,13 @@
 package example.com.authapplication.mvvm
 
 import android.content.Context
-import example.com.authapplication.auth_service.AuthFingerPrint
-import example.com.authapplication.auth_service.FirebaseAuthService
+import example.com.authapplication.services.AuthFingerPrint
+import example.com.authapplication.services.FirebaseAuthService
 import example.com.authapplication.data.AuthAction
 import example.com.authapplication.data.AuthValue
 import example.com.authapplication.interfaces.*
-import example.com.authapplication.store.AuthEncryptPasswordStore
-import example.com.authapplication.store.AuthMailStore
+import example.com.authapplication.stores.AuthEncryptPasswordStore
+import example.com.authapplication.stores.AuthMailStore
 import javax.crypto.Cipher
 
 class AuthModel: AuthResultListener, AuthBiometricResultListener {
@@ -17,9 +17,9 @@ class AuthModel: AuthResultListener, AuthBiometricResultListener {
     }
     var onAuthenticationComplete:           ((action: AuthAction, result: AuthValue) -> Unit)? = null
     var onAuthenticationBiometricComplete:  ((cryptoObject: Cipher?) -> Unit)? = null
-    private val authService      : AuthService        = FirebaseAuthService()
-    private val emailAddressStore: AuthEmailStore     = AuthMailStore()
-    private val passwordStore    : AuthPasswordStore  = AuthEncryptPasswordStore()
+    private val authService      : AuthService = FirebaseAuthService()
+    private val emailAddressStore: AuthEmailStore = AuthMailStore()
+    private val passwordStore    : AuthPasswordStore = AuthEncryptPasswordStore()
     private var authBiometric    : AuthBiometric?     = null
 
     init{

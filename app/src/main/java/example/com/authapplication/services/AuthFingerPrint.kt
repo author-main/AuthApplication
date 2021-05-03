@@ -1,4 +1,4 @@
-package example.com.authapplication.auth_service
+package example.com.authapplication.services
 
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
