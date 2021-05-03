@@ -1,10 +1,13 @@
-package example.com.authapplication
+package example.com.authapplication.mvvm
 
 import android.content.Context
 import android.view.View
 import androidx.lifecycle.ViewModel
 import example.com.authapplication.data.AuthAction
 import example.com.authapplication.data.AuthValue
+import example.com.authapplication.getColorResource
+import example.com.authapplication.getStringResource
+import example.com.authapplication.validateMail
 import javax.crypto.Cipher
 
 class AuthViewModel: ViewModel() {
@@ -76,15 +79,19 @@ class AuthViewModel: ViewModel() {
         model.saveEmailAddress(value)
     }
 
+
     fun loadEmailAddress(): String? =
         model.loadEmailAddress()
+
 
     fun isStoredPassword() =
         model.isStoredPassword()
 
+
     fun savePassword(value: String){
         model.savePassword(value)
     }
+
 
     fun loadPassword(cipher: Cipher) =
         model.loadPassword(cipher)
@@ -93,27 +100,28 @@ class AuthViewModel: ViewModel() {
     fun canAuthenticateBiometric() =
         model.canAuthenticateBiometric()
 
+
     fun authenticateBiomeric() =
         model.authenticateBiomeric()
+
 
     fun signIn(email: String, password: String) {
         model.signIn(email, password)
     }
 
+
+
     fun registerUser(email: String, password: String) {
         model.registerUser(email, password)
     }
+
 
     fun restoreUser(email: String) {
         model.restoreUser(email)
     }
 
 
-
-
-
-
-    fun correctEmail(email: String) = validateMail(email)
-    fun getStringFromResource(id: Int): String = getStringResource(id)
-    fun getColorFromResource(id: Int): Int = getColorResource(id)
+    fun correctEmail(email: String) 			= validateMail(email)
+    fun getStringFromResource(id: Int): String 	= getStringResource(id)
+    fun getColorFromResource(id: Int): Int 		= getColorResource(id)
 }

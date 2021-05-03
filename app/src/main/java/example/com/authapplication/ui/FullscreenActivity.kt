@@ -1,7 +1,6 @@
 package example.com.authapplication.ui
 
 import android.annotation.SuppressLint
-import android.hardware.biometrics.BiometricManager
 import android.os.Bundle
 import android.text.Layout
 import android.text.Spannable
@@ -15,8 +14,6 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import example.com.authapplication.*
-import example.com.authapplication.auth_service.AuthFingerPrint
-import example.com.authapplication.auth_service.FirebaseAuthService
 import example.com.authapplication.data.AuthAction
 import example.com.authapplication.data.AuthValue
 import example.com.authapplication.databinding.ActivityFullscreenBinding
@@ -24,8 +21,7 @@ import example.com.authapplication.dialogs.DialogProgress
 import example.com.authapplication.dialogs.DialogRegister
 import example.com.authapplication.dialogs.DialogRestore
 import example.com.authapplication.interfaces.*
-import example.com.authapplication.store.AuthEncryptPasswordStore
-import example.com.authapplication.store.AuthMailStore
+import example.com.authapplication.mvvm.AuthViewModel
 import kotlinx.coroutines.*
 import javax.crypto.Cipher
 

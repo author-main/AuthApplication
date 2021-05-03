@@ -5,7 +5,7 @@
     <data>
         <variable
             name="eventhandler"
-            type="example.com.authapplication.AuthViewModel"/>
+            type="example.com.authapplication.mvvm.AuthViewModel"/>
     </data>
     <FrameLayout
         android:layout_width="match_parent"

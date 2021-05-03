@@ -5,5 +5,4 @@ interface AuthService {
     fun signIn(email: String, password: String)
     fun registerUser(email: String, password: String)
     fun restoreUser(email: String)
-    //fun verifyUser(): Boolean
 }

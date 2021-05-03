@@ -1,4 +1,4 @@
-package example.com.authapplication
+package example.com.authapplication.mvvm
 
 import android.content.Context
 import example.com.authapplication.auth_service.AuthFingerPrint
