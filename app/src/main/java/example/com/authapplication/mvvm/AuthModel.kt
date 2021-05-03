@@ -79,5 +79,8 @@ class AuthModel: AuthResultListener, AuthBiometricResultListener {
         authService.restoreUser(email)
     }
 
+    fun getUidUser() =
+        authService.getUidUser()
+
 
 }

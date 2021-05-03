@@ -55,4 +55,6 @@ class FirebaseAuthService: AuthService {
         return AuthValue.ERROR_AUTH_SERVICE
     }
 
+    override fun getUidUser() =
+        instance.currentUser?.uid
 }

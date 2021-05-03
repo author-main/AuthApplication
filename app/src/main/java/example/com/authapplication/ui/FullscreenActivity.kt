@@ -284,8 +284,10 @@ class FullscreenActivity : AppCompatActivity() {
 
 
     private fun accessed(){
-        //startActivity(Intent(this, MainActivity::class.java))
         viewModel.promptBiometricVisible = false
+        /*val intent = Intent(this, MainActivity::class.java)
+        intent.putExtra("uiduser", viewModel.getUidUser())
+        startActivity(intent)*/
         finish()
     }
 

@@ -121,6 +121,10 @@ class AuthViewModel: ViewModel() {
     }
 
 
+    fun getUidUser() =
+        model.getUidUser()
+
+
     fun correctEmail(email: String) 			= validateMail(email)
     fun getStringFromResource(id: Int): String 	= getStringResource(id)
     fun getColorFromResource(id: Int): Int 		= getColorResource(id)
