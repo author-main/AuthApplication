@@ -18,7 +18,6 @@ import example.com.authapplication.*
 import example.com.authapplication.auth_service.AuthFingerPrint
 import example.com.authapplication.auth_service.FirebaseAuthService
 import example.com.authapplication.data.AuthAction
-import example.com.authapplication.data.AuthBiometricValue
 import example.com.authapplication.data.AuthValue
 import example.com.authapplication.databinding.ActivityFullscreenBinding
 import example.com.authapplication.dialogs.DialogProgress
@@ -28,6 +27,7 @@ import example.com.authapplication.interfaces.*
 import example.com.authapplication.store.AuthEncryptPasswordStore
 import example.com.authapplication.store.AuthMailStore
 import kotlinx.coroutines.*
+import javax.crypto.Cipher
 
 
 class FullscreenActivity : AppCompatActivity(), AuthResultListener, AuthBiometricResultListener {
@@ -291,10 +291,10 @@ class FullscreenActivity : AppCompatActivity(), AuthResultListener, AuthBiometri
             showToast(getStringResource(idErrorMessage))
     }
 
-    override fun onAuthentificationBiometricComplete(result: AuthBiometricValue) {
-        if (result == AuthBiometricValue.SUCCESSFUL) {
+    override fun onAuthentificationBiometricComplete(cryptoObject: Cipher?) {
+        if (cryptoObject != null) {
             val email    = dataBinding.editTextEmail.text.toString()
-            val password = passwordStore?.getPassword()
+            val password = passwordStore?.getPassword(cryptoObject)
             if (!isCorrectEmail(email) || password.isNullOrBlank())
                 return
             viewModel.password = password

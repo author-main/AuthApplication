@@ -4,7 +4,7 @@ import javax.crypto.Cipher
 
 interface AuthPasswordStore {
     fun putPassword(password: String)
-    fun getPassword(): String?
+    fun getPassword(cipher: Cipher): String?
     fun existPasswordStore(): Boolean
     fun getCryptoObject(): Cipher?
 }

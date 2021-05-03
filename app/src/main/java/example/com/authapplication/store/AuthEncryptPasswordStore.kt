@@ -109,24 +109,13 @@ class AuthEncryptPasswordStore: AuthPasswordStore {
         return null
     }
 
-    private fun getDecriptCipher(): Cipher?{
-        val ks = getKeyStore() ?: return null
-        try {
-            val privateKey: PrivateKey = ks.getKey(alias, null) as PrivateKey
-            val cipher: Cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding")
-            cipher.init(Cipher.DECRYPT_MODE, privateKey)
-            return cipher
-        } catch (e: Exception){
-        }
-        return null
-    }
 
-
-    override fun getPassword(): String? {
+    override fun getPassword(cipher: Cipher): String? {
         try {
             val encryptedPassword = sharedPrefs.getString(keyPassword, null) ?: return null
             val passwordBase64: ByteArray = Base64.decode(encryptedPassword, Base64.DEFAULT)
-            val password = getDecriptCipher()?.doFinal(passwordBase64) ?: return null
+            //val password = getDecriptCipher()?.doFinal(passwordBase64) ?: return null
+            val password = cipher.doFinal(passwordBase64) ?: return null
             return String(password)
         } catch(e:java.lang.Exception){}
         return null
@@ -144,7 +133,16 @@ class AuthEncryptPasswordStore: AuthPasswordStore {
 
     }
 
-    override fun getCryptoObject(): Cipher? =
-        getDecriptCipher()
+    override fun getCryptoObject(): Cipher? {
+        val ks = getKeyStore() ?: return null
+        try {
+            val privateKey: PrivateKey = ks.getKey(alias, null) as PrivateKey
+            val cipher: Cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding")
+            cipher.init(Cipher.DECRYPT_MODE, privateKey)
+            return cipher
+        } catch (e: Exception){
+        }
+        return null
+    }
 
 }

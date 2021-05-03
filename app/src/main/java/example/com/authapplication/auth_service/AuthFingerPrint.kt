@@ -7,7 +7,6 @@ import androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_STRONG
 import androidx.biometric.BiometricManager.Authenticators.DEVICE_CREDENTIAL
 import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
-import example.com.authapplication.data.AuthBiometricValue
 import example.com.authapplication.R
 import example.com.authapplication.getStringResource
 import example.com.authapplication.interfaces.AuthBiometric
@@ -47,12 +46,12 @@ class AuthFingerPrint(private val context: Context): AuthBiometric {
         val callback = object : BiometricPrompt.AuthenticationCallback() {
             override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
                 super.onAuthenticationError(errorCode, errString)
-                authBiometricListener?.onAuthentificationBiometricComplete(AuthBiometricValue.ERROR)
+                authBiometricListener?.onAuthentificationBiometricComplete(null)
             }
             override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
                 super.onAuthenticationSucceeded(result)
                 // здесь можно извлечь cryptoObject
-                authBiometricListener?.onAuthentificationBiometricComplete(AuthBiometricValue.SUCCESSFUL)
+                authBiometricListener?.onAuthentificationBiometricComplete(result.cryptoObject?.cipher)
             }
         }
 

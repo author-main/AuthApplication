@@ -1,7 +1,8 @@
 package example.com.authapplication.interfaces
 
-import example.com.authapplication.data.AuthBiometricValue
+import javax.crypto.Cipher
 
 interface AuthBiometricResultListener {
-    fun onAuthentificationBiometricComplete(result: AuthBiometricValue)
+    //fun onAuthentificationBiometricComplete(result: AuthBiometricValue)
+    fun onAuthentificationBiometricComplete(cryptoObject: Cipher?)
 }

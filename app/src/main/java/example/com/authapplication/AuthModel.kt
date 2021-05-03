@@ -4,11 +4,11 @@ import android.content.Context
 import example.com.authapplication.auth_service.AuthFingerPrint
 import example.com.authapplication.auth_service.FirebaseAuthService
 import example.com.authapplication.data.AuthAction
-import example.com.authapplication.data.AuthBiometricValue
 import example.com.authapplication.data.AuthValue
 import example.com.authapplication.interfaces.*
 import example.com.authapplication.store.AuthEncryptPasswordStore
 import example.com.authapplication.store.AuthMailStore
+import javax.crypto.Cipher
 
 class AuthModel: AuthResultListener, AuthBiometricResultListener {
     var context: Context? = null
@@ -16,7 +16,7 @@ class AuthModel: AuthResultListener, AuthBiometricResultListener {
         setContext(value)
     }
     var onAuthenticationComplete:           ((action: AuthAction, result: AuthValue) -> Unit)? = null
-    var onAuthenticationBiometricComplete:  ((result: AuthBiometricValue) -> Unit)? = null
+    var onAuthenticationBiometricComplete:  ((cryptoObject: Cipher?) -> Unit)? = null
     private val authService      : AuthService        = FirebaseAuthService()
     private val emailAddressStore: AuthEmailStore     = AuthMailStore()
     private val passwordStore    : AuthPasswordStore  = AuthEncryptPasswordStore()
@@ -36,8 +36,8 @@ class AuthModel: AuthResultListener, AuthBiometricResultListener {
         onAuthenticationComplete?.invoke(action, result)
     }
 
-    override fun onAuthentificationBiometricComplete(result: AuthBiometricValue) {
-        onAuthenticationBiometricComplete?.invoke(result)
+    override fun onAuthentificationBiometricComplete(cryptoObject: Cipher?) {
+        onAuthenticationBiometricComplete?.invoke(cryptoObject)
     }
 
     fun saveEmailAddress(value: String){

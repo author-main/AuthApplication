@@ -9,10 +9,6 @@ enum class AuthValue {
     ERROR_RESTORE
 }
 
-enum class AuthBiometricValue() {
-    SUCCESSFUL,
-    ERROR
-}
 
 enum class AuthAction {
     SIGNIN,
