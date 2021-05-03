@@ -8,7 +8,6 @@ import android.security.keystore.KeyProperties.KEY_ALGORITHM_RSA
 import android.util.Base64
 import example.com.authapplication.AuthApplication
 import example.com.authapplication.interfaces.AuthPasswordStore
-import example.com.authapplication.log
 import java.security.KeyPairGenerator
 import java.security.KeyStore
 import java.security.PrivateKey
