@@ -54,7 +54,6 @@ class AuthFingerPrint(private val context: Context): AuthBiometric {
                 authBiometricListener?.onAuthentificationBiometricComplete(result.cryptoObject?.cipher)
             }
         }
-
         return BiometricPrompt(context as AppCompatActivity, executor, callback)
     }
 }
