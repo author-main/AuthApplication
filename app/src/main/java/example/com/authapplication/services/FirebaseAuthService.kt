@@ -1,8 +1,13 @@
 package example.com.authapplication.services
 
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import com.google.android.gms.tasks.Task
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.*
+import example.com.authapplication.AuthApplication
+import example.com.authapplication.AuthApplication.Companion.applicationContext
 import example.com.authapplication.data.AuthAction
 import example.com.authapplication.data.AuthValue
 import example.com.authapplication.interfaces.AuthResultListener
@@ -15,10 +20,21 @@ class FirebaseAuthService: AuthService {
 
 
     private fun resultTask(task: Task<AuthResult>, action: AuthAction){
+        if (authResultErrorConnection(action))
+            return
         if (task.isSuccessful)
             authResultListener?.onAutentificationComplete(action, AuthValue.SUCCESSFUL)
         else
             authResultListener?.onAutentificationComplete(action, getErrorFromException(task.exception))
+    }
+
+
+    private fun authResultErrorConnection(action: AuthAction): Boolean{
+        return if (!connectedInternet()) {
+            authResultListener?.onAutentificationComplete(action, AuthValue.ERROR_CONNECTION)
+            true
+        } else
+            false
     }
 
     override fun signIn(email: String, password: String) {
@@ -36,6 +52,8 @@ class FirebaseAuthService: AuthService {
     override fun restoreUser(email: String) {
         instance.currentUser?.sendEmailVerification()
         instance.sendPasswordResetEmail(email).addOnCompleteListener {task ->
+            if (authResultErrorConnection(AuthAction.RESTORE))
+                return@addOnCompleteListener
             if (task.isSuccessful)
                 authResultListener?.onAutentificationComplete(AuthAction.RESTORE, AuthValue.SUCCESSFUL)
             else
@@ -57,4 +75,19 @@ class FirebaseAuthService: AuthService {
 
     override fun getUidUser() =
         instance.currentUser?.uid
+
+
+    private fun connectedInternet(): Boolean{
+        var connected = false
+        val connectivityManager = applicationContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val  activeNetwork = connectivityManager.activeNetwork
+        activeNetwork?.let{
+            val capabilities = connectivityManager.getNetworkCapabilities(it)
+            if (capabilities != null)
+                connected = capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) || capabilities.hasTransport(
+                        NetworkCapabilities.TRANSPORT_WIFI
+                );
+        }
+        return connected
+    }
 }
