@@ -292,7 +292,6 @@ class FullscreenActivity : AppCompatActivity() {
         startActivity(intent)
 
      *  В главной activity в методе onCreate() получаем Uid пользователя
-        val intent = getIntent()
         val uid = intent.getStringExtra("uiduser")
      *
      */
