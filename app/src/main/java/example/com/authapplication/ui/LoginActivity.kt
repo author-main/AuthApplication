@@ -28,6 +28,8 @@ import javax.crypto.Cipher
  *
  * Пример аутентификации пользователя
  * с использованием службы Firebase Authentication
+ * Полный код проекта для AndroidStudio доступен
+ * по адресу https://github.com/author-main/AuthApplication
  * Использование кода разрешено без каких-либо ограничений
  * Все вопросы и пояснения вы можете получить по email, указанному ниже
  *
