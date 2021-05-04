@@ -12,7 +12,7 @@
         android:layout_height="match_parent"
         android:background="?attr/fullscreenBackgroundColor"
         android:theme="@style/ThemeOverlay.AuthApplication.FullscreenContainer"
-        tools:context=".ui.FullscreenActivity">
+        tools:context=".ui.LoginActivity">
 
 
         <TextView

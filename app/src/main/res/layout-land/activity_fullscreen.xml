@@ -14,7 +14,7 @@
         android:background="?attr/fullscreenBackgroundColor"
         android:gravity="center"
         android:theme="@style/ThemeOverlay.AuthApplication.FullscreenContainer"
-        tools:context=".ui.FullscreenActivity">
+        tools:context=".ui.LoginActivity">
 
 
         <TextView
