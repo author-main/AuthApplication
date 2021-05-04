@@ -284,9 +284,18 @@ class FullscreenActivity : AppCompatActivity() {
 
 
     private fun accessed(){
-        /*val intent = Intent(this, MainActivity::class.java)
+    /**
+     *
+     *  Передаем в главную activity Uid пользователя
+        val intent = Intent(this, MainActivity::class.java)
         intent.putExtra("uiduser", viewModel.getUidUser())
-        startActivity(intent)*/
+        startActivity(intent)
+
+     *  В главной activity в методе onCreate() получаем Uid пользователя
+        val intent = getIntent()
+        val uid = intent.getStringExtra("uiduser")
+     *
+     */
         finish()
     }
 
