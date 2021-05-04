@@ -108,10 +108,8 @@ class LoginActivity : AppCompatActivity() {
     override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
         val editTectRect = Rect()
         dataBinding.editTextEmail.getGlobalVisibleRect(editTectRect)
-        val x = ev?.x?.toInt()
-        val y = ev?.y?.toInt()
-        if (x != null && y!= null)
-            if (!editTectRect.contains(x, y))
+        if (ev != null)
+            if (!editTectRect.contains(ev.x.toInt(), ev.y.toInt()))
                 hideFocusEmail()
         return super.dispatchTouchEvent(ev)
     }
