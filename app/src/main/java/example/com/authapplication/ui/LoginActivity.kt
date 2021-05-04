@@ -24,8 +24,19 @@ import example.com.authapplication.mvvm.AuthViewModel
 import kotlinx.coroutines.*
 import javax.crypto.Cipher
 
+/**
+ *
+ * Пример аутентификации пользователя
+ * с использованием службы Firebase Authentication
+ * Использование кода разрешено без каких-либо ограничений
+ * Все вопросы и пояснения вы можете получить по email, указанному ниже
+ *
+ * Автор: Мышанский Сергей
+ * Email: myshansky@yandex.ru
+ *
+*/
 
-class FullscreenActivity : AppCompatActivity() {
+class LoginActivity : AppCompatActivity() {
 
     companion object{
         private fun setNightMode() {
