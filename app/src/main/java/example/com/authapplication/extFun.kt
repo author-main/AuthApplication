@@ -34,9 +34,9 @@ fun getColorResource(id: Int): Int =
             Color.TRANSPARENT
         }
 
-/*fun log(value: String){
+fun log(value: String){
     Log.v("authapp", value.toUpperCase(Locale.ROOT))
-}*/
+}
 
 fun setDialogStyle(dialog: AlertDialog, noTitle: Boolean = false) {
     dialog.setCanceledOnTouchOutside(false)
