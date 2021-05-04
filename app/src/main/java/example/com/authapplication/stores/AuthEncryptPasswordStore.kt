@@ -113,7 +113,6 @@ class AuthEncryptPasswordStore: AuthPasswordStore {
         try {
             val encryptedPassword = sharedPrefs.getString(keyPassword, null) ?: return null
             val passwordBase64: ByteArray = Base64.decode(encryptedPassword, Base64.DEFAULT)
-            //val password = getDecriptCipher()?.doFinal(passwordBase64) ?: return null
             val password = cipher.doFinal(passwordBase64) ?: return null
             return String(password)
         } catch(e:java.lang.Exception){}

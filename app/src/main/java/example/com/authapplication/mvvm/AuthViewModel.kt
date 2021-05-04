@@ -27,7 +27,6 @@ class AuthViewModel: ViewModel() {
     var onClickButtonFinger: (() -> Unit)? = null
     var onClickButtonRegister: (() -> Unit)? = null
     var onClickButtonRemember: (() -> Unit)? = null
-    var onAnyClick: (() -> Unit)? = null
 
     fun setModelContext(context: Context){
         model.context = context
@@ -40,7 +39,6 @@ class AuthViewModel: ViewModel() {
     }
 
     fun onClick(v: View) {
-        onAnyClick?.invoke()
         val tag = v.tag as String
         if (tag.length == 1) {
             if (mPassword.length < 5) {

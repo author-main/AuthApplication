@@ -1,16 +1,20 @@
 package example.com.authapplication.ui
 
 import android.annotation.SuppressLint
+import android.graphics.Rect
 import android.os.Bundle
 import android.text.Layout
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.AlignmentSpan
+import android.view.MotionEvent
+import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.view.get
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import example.com.authapplication.*
@@ -25,7 +29,21 @@ import kotlinx.coroutines.*
 import javax.crypto.Cipher
 
 
-class FullscreenActivity : AppCompatActivity() {
+/**
+ *
+ * Пример аутентификации пользователя
+ * с использованием службы Firebase Authentication
+ * Полный код проекта для AndroidStudio доступен
+ * по адресу https://github.com/author-main/AuthApplication
+ * Использование кода разрешено без каких-либо ограничений
+ * Все вопросы и пояснения вы можете получить по email, указанному ниже
+ *
+ * Автор: Мышанский Сергей
+ * Email: myshansky@yandex.ru
+ *
+*/
+
+class LoginActivity : AppCompatActivity() {
 
     companion object{
         private fun setNightMode() {
@@ -48,16 +66,15 @@ class FullscreenActivity : AppCompatActivity() {
         viewModel =
                 ViewModelProvider(this).get(AuthViewModel::class.java)
         viewModel.setModelContext(this)
-        viewModel.onAnyClick = {hideFocusEmail()}
         viewModel.onChangePassword =
                 { password: String, showSym: Boolean -> changePassword(password, showSym) }
         viewModel.onClickButtonRegister = {showDialogRegister()}
         viewModel.onClickButtonRemember = {showDialogRestore()}
         viewModel.onClickButtonFinger   = {promptFingerPrint()}
-        viewModel.onAuthenticationComplete = {action: AuthAction, result: AuthValue ->
+        viewModel.onAuthenticationComplete = { action: AuthAction, result: AuthValue ->
             authenticationComplete(action, result)
         }
-        viewModel.onAuthenticationBiometricComplete = {cryptoObject: Cipher? ->
+        viewModel.onAuthenticationBiometricComplete = { cryptoObject: Cipher? ->
             authenticationBiometricComplete(cryptoObject)
         }
         dataBinding = DataBindingUtil.setContentView(
@@ -84,7 +101,20 @@ class FullscreenActivity : AppCompatActivity() {
             if (viewModel.promptBiometricVisible)
                 promptFingerPrint()
         }
+
     }
+
+
+    override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
+        val editTectRect = Rect()
+        dataBinding.editTextEmail.getGlobalVisibleRect(editTectRect)
+        if (ev != null)
+            if (!editTectRect.contains(ev.x.toInt(), ev.y.toInt()))
+                hideFocusEmail()
+        return super.dispatchTouchEvent(ev)
+    }
+
+
 
     private fun promptFingerPrint(){
         viewModel.promptBiometricVisible = viewModel.authenticateBiomeric()
@@ -284,10 +314,17 @@ class FullscreenActivity : AppCompatActivity() {
 
 
     private fun accessed(){
-        viewModel.promptBiometricVisible = false
-        /*val intent = Intent(this, MainActivity::class.java)
+    /**
+     *
+     *  Передаем в главную activity Uid пользователя
+        val intent = Intent(this, MainActivity::class.java)
         intent.putExtra("uiduser", viewModel.getUidUser())
-        startActivity(intent)*/
+        startActivity(intent)
+
+     *  В главной activity в методе onCreate() получаем Uid пользователя
+        val uid = intent.getStringExtra("uiduser")
+     *
+     */
         finish()
     }
 
