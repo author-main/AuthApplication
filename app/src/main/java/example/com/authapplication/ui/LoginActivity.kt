@@ -42,7 +42,6 @@ import javax.crypto.Cipher
 */
 
 class LoginActivity : AppCompatActivity() {
-
     companion object{
         private fun setNightMode() {
             AppCompatDelegate.setDefaultNightMode(
@@ -50,7 +49,6 @@ class LoginActivity : AppCompatActivity() {
             )
         }
     }
-
     private var job: Job? = null
     private var dialogProgress: DialogProgress? = null
     private lateinit var dataBinding: ActivityFullscreenBinding
