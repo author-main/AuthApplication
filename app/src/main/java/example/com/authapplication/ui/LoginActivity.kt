@@ -116,7 +116,6 @@ class LoginActivity : AppCompatActivity() {
     }
 
 
-
     private fun promptFingerPrint(){
         viewModel.promptBiometricVisible = viewModel.authenticateBiomeric()
     }
