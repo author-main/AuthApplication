@@ -160,8 +160,6 @@ class LoginActivity : AppCompatActivity() {
                     symbols[i]?.setTextColor(color)
                 }
             }
-
-
         }
     }
 
