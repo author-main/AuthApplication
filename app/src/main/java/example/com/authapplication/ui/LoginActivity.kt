@@ -160,6 +160,8 @@ class LoginActivity : AppCompatActivity() {
                     symbols[i]?.setTextColor(color)
                 }
             }
+
+
         }
     }
 
@@ -317,7 +319,7 @@ class LoginActivity : AppCompatActivity() {
 
      *  В главной activity в методе onCreate() получаем Uid пользователя
         val uid = intent.getStringExtra("uiduser")
-
+     *
      */
         finish()
     }
