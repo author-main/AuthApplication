@@ -1,16 +1,20 @@
 package example.com.authapplication.ui
 
 import android.annotation.SuppressLint
+import android.graphics.Rect
 import android.os.Bundle
 import android.text.Layout
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.AlignmentSpan
+import android.view.MotionEvent
+import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.view.get
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import example.com.authapplication.*
@@ -23,6 +27,7 @@ import example.com.authapplication.dialogs.DialogRestore
 import example.com.authapplication.mvvm.AuthViewModel
 import kotlinx.coroutines.*
 import javax.crypto.Cipher
+
 
 /**
  *
@@ -61,16 +66,15 @@ class LoginActivity : AppCompatActivity() {
         viewModel =
                 ViewModelProvider(this).get(AuthViewModel::class.java)
         viewModel.setModelContext(this)
-        viewModel.onAnyClick = {hideFocusEmail()}
         viewModel.onChangePassword =
                 { password: String, showSym: Boolean -> changePassword(password, showSym) }
         viewModel.onClickButtonRegister = {showDialogRegister()}
         viewModel.onClickButtonRemember = {showDialogRestore()}
         viewModel.onClickButtonFinger   = {promptFingerPrint()}
-        viewModel.onAuthenticationComplete = {action: AuthAction, result: AuthValue ->
+        viewModel.onAuthenticationComplete = { action: AuthAction, result: AuthValue ->
             authenticationComplete(action, result)
         }
-        viewModel.onAuthenticationBiometricComplete = {cryptoObject: Cipher? ->
+        viewModel.onAuthenticationBiometricComplete = { cryptoObject: Cipher? ->
             authenticationBiometricComplete(cryptoObject)
         }
         dataBinding = DataBindingUtil.setContentView(
@@ -97,7 +101,20 @@ class LoginActivity : AppCompatActivity() {
             if (viewModel.promptBiometricVisible)
                 promptFingerPrint()
         }
+
     }
+
+
+    override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
+        val editTextRect = Rect()
+        dataBinding.editTextEmail.getGlobalVisibleRect(editTextRect)
+        if (ev != null)
+            if (!editTextRect.contains(ev.x.toInt(), ev.y.toInt()))
+                hideFocusEmail()
+        return super.dispatchTouchEvent(ev)
+    }
+
+
 
     private fun promptFingerPrint(){
         viewModel.promptBiometricVisible = viewModel.authenticateBiomeric()
