@@ -106,14 +106,14 @@ class LoginActivity : AppCompatActivity() {
 
 
     override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
-        val editTextRect = Rect()
-        dataBinding.editTextEmail.getGlobalVisibleRect(editTextRect)
-        ev?.let { event ->
-            if (!editTextRect.contains(event.x.toInt(), event.y.toInt()))
+        val editTectRect = Rect()
+        dataBinding.editTextEmail.getGlobalVisibleRect(editTectRect)
+        if (ev != null)
+            if (!editTectRect.contains(ev.x.toInt(), ev.y.toInt()))
                 hideFocusEmail()
-        }
         return super.dispatchTouchEvent(ev)
     }
+
 
 
     private fun promptFingerPrint(){
