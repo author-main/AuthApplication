@@ -311,7 +311,6 @@ class LoginActivity : AppCompatActivity() {
 
     private fun accessed(){
     /**
-     *
      *  Передаем в главную activity Uid пользователя
         val intent = Intent(this, MainActivity::class.java)
         intent.putExtra("uiduser", viewModel.getUidUser())
@@ -319,7 +318,6 @@ class LoginActivity : AppCompatActivity() {
 
      *  В главной activity в методе onCreate() получаем Uid пользователя
         val uid = intent.getStringExtra("uiduser")
-     *
      */
         finish()
     }
