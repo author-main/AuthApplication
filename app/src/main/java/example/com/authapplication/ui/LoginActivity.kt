@@ -8,13 +8,11 @@ import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.AlignmentSpan
 import android.view.MotionEvent
-import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.view.get
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import example.com.authapplication.*
