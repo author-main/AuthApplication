@@ -61,7 +61,7 @@
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintHorizontal_chainStyle="spread_inside"
                     app:layout_constraintStart_toStartOf="parent"
-                    tools:layout_editor_absoluteY="0dp" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/textViewSymbol1"
@@ -70,7 +70,8 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintEnd_toStartOf="@+id/textViewSymbol2"
                     app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toEndOf="@+id/textViewSymbol0" />
+                    app:layout_constraintStart_toEndOf="@+id/textViewSymbol0"
+                    app:layout_constraintTop_toTopOf="@+id/textViewSymbol0" />
 
                 <TextView
                     android:id="@+id/textViewSymbol2"
@@ -79,7 +80,8 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintEnd_toStartOf="@+id/textViewSymbol3"
                     app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toEndOf="@+id/textViewSymbol1" />
+                    app:layout_constraintStart_toEndOf="@+id/textViewSymbol1"
+                    app:layout_constraintTop_toTopOf="@+id/textViewSymbol0" />
 
                 <TextView
                     android:id="@+id/textViewSymbol3"
@@ -88,7 +90,8 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintEnd_toStartOf="@+id/textViewSymbol4"
                     app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toEndOf="@+id/textViewSymbol2" />
+                    app:layout_constraintStart_toEndOf="@+id/textViewSymbol2"
+                    app:layout_constraintTop_toTopOf="@+id/textViewSymbol0" />
 
                 <TextView
                     android:id="@+id/textViewSymbol4"
@@ -97,7 +100,8 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toEndOf="@+id/textViewSymbol3" />
+                    app:layout_constraintStart_toEndOf="@+id/textViewSymbol3"
+                    app:layout_constraintTop_toTopOf="@+id/textViewSymbol0" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <Button

@@ -22,7 +22,7 @@ class DialogRegister: DialogFragment() {
         editPassword        = root.findViewById(R.id.editTextPassword)
         editConfirmPassword = root.findViewById(R.id.editTextConfirmPassword)
         editEmail.setText(arguments?.getString("email"))
-        val builder: AlertDialog.Builder = AlertDialog.Builder(activity!!)
+        val builder: AlertDialog.Builder = AlertDialog.Builder(requireActivity())
         builder.setTitle(R.string.dlgreg_authentication_title)
             .setView(root)
             .setNegativeButton(R.string.button_cancel, null)

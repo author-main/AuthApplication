@@ -6,7 +6,6 @@ import android.net.NetworkCapabilities
 import com.google.android.gms.tasks.Task
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.*
-import example.com.authapplication.AuthApplication
 import example.com.authapplication.AuthApplication.Companion.applicationContext
 import example.com.authapplication.data.AuthAction
 import example.com.authapplication.data.AuthValue
@@ -86,7 +85,7 @@ class FirebaseAuthService: AuthService {
             if (capabilities != null)
                 connected = capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) || capabilities.hasTransport(
                         NetworkCapabilities.TRANSPORT_WIFI
-                );
+                )
         }
         return connected
     }
