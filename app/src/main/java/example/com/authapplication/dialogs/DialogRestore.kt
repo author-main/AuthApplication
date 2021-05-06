@@ -17,7 +17,7 @@ class DialogRestore: DialogFragment() {
         val root = activity?.layoutInflater!!.inflate(R.layout.dialog_restore, null)
         editEmail           = root.findViewById(R.id.editTextEmailRestore)
         editEmail.setText(arguments?.getString("email"))
-        val builder: AlertDialog.Builder = AlertDialog.Builder(activity!!)
+        val builder: AlertDialog.Builder = AlertDialog.Builder(requireActivity())
         builder.setTitle(R.string.dlgrest_title)
                 .setView(root)
                 .setNegativeButton(R.string.button_cancel, null)
