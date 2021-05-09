@@ -73,6 +73,7 @@ class LoginActivity : AppCompatActivity() {
         viewModel.onAuthenticationBiometricComplete = { cryptoObject: Cipher? ->
             authenticationBiometricComplete(cryptoObject)
         }
+        lifecycle.addObserver(viewModel)
         dataBinding = DataBindingUtil.setContentView(
                 this,
                 R.layout.activity_fullscreen
@@ -86,10 +87,8 @@ class LoginActivity : AppCompatActivity() {
         supportActionBar?.hide()
         setNightMode()
         dataBinding.editTextEmail.setText(viewModel.loadEmailAddress())
-        changePassword(viewModel.password)
         val biometricAvailable = viewModel.canAuthenticateBiometric()
         val passwordSaved = viewModel.isStoredPassword()
-
         if (biometricAvailable && passwordSaved) {
             dataBinding.buttonFinger.isEnabled = true
             dataBinding.buttonFinger.alpha = 0.7f

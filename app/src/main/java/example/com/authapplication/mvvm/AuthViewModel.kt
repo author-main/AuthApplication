@@ -2,6 +2,9 @@ package example.com.authapplication.mvvm
 
 import android.content.Context
 import android.view.View
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.ViewModel
 import example.com.authapplication.data.AuthAction
 import example.com.authapplication.data.AuthValue
@@ -10,7 +13,8 @@ import example.com.authapplication.getStringResource
 import example.com.authapplication.validateMail
 import javax.crypto.Cipher
 
-class AuthViewModel: ViewModel() {
+
+class AuthViewModel: ViewModel(), LifecycleObserver {
     private val model: AuthModel = AuthModel()
     var dialogEmail:  String = ""
     var promptBiometricVisible:  Boolean = true
@@ -28,6 +32,11 @@ class AuthViewModel: ViewModel() {
     var onClickButtonRegister: (() -> Unit)? = null
     var onClickButtonRemember: (() -> Unit)? = null
 
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_START)
+    private fun onLifeCycleStart() {
+        onChangePassword?.invoke(mPassword, false)
+    }
 
     fun setModelContext(context: Context){
         model.context = context
