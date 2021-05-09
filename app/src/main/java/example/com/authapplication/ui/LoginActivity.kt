@@ -26,7 +26,6 @@ import example.com.authapplication.mvvm.AuthViewModel
 import kotlinx.coroutines.*
 import javax.crypto.Cipher
 
-
 /**
  *
  * Пример аутентификации пользователя
