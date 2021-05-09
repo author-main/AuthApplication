@@ -87,7 +87,6 @@ class LoginActivity : AppCompatActivity() {
         setNightMode()
         dataBinding.editTextEmail.setText(viewModel.loadEmailAddress())
         changePassword(viewModel.password)
-
         val biometricAvailable = viewModel.canAuthenticateBiometric()
         val passwordSaved = viewModel.isStoredPassword()
 
