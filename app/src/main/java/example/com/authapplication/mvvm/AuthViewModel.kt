@@ -28,6 +28,7 @@ class AuthViewModel: ViewModel() {
     var onClickButtonRegister: (() -> Unit)? = null
     var onClickButtonRemember: (() -> Unit)? = null
 
+
     fun setModelContext(context: Context){
         model.context = context
         model.onAuthenticationComplete = {action: AuthAction, result: AuthValue ->
