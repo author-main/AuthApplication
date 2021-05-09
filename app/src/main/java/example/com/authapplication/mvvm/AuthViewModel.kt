@@ -38,7 +38,7 @@ class AuthViewModel: ViewModel() {
         }
     }
 
-    private fun onClick(v: View) {
+    fun onClick(v: View) {
         val tag = v.tag as String
         if (tag.length == 1) {
             if (mPassword.length < 5) {
