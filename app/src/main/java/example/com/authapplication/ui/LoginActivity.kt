@@ -53,7 +53,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var dataBinding: ActivityFullscreenBinding
     private lateinit var viewModel: AuthViewModel
     private val symbols = arrayOfNulls<TextView>(5)
-
+    private val hiddenSymbol = "\u2022"
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -118,7 +118,7 @@ class LoginActivity : AppCompatActivity() {
             symbols[index]?.setTextColor(viewModel.getColorFromResource(
                     R.color.design_default_color_on_primary
             ))
-            symbols[index]?.text = "\u2022"
+            symbols[index]?.text = hiddenSymbol
         }
         if (showSym){
             val index = password.length - 1
@@ -132,7 +132,7 @@ class LoginActivity : AppCompatActivity() {
                 ))
                 symbols[index]?.text = sym
                 delay(400)
-                symbols[index]?.text = "\u2022"
+                symbols[index]?.text = hiddenSymbol
                 val email = dataBinding.editTextEmail.text.toString()
                 if (password.length == 5 && isCorrectEmail(email)) {
                     showProgress()
