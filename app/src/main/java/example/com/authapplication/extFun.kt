@@ -21,6 +21,7 @@ fun getStringResource(id: Int): String =
             ""
         }
 
+
 fun getColorResource(id: Int): Int =
         try {
             ContextCompat.getColor(
