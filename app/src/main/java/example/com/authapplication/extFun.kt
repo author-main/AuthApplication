@@ -42,6 +42,7 @@ fun setDialogStyle(dialog: AlertDialog, noTitle: Boolean = false) {
         dialog.window?.requestFeature(Window.FEATURE_NO_TITLE)
 }
 
+
 /*
 val Int.dp: Int
     get() = (this / Resources.getSystem().displayMetrics.density).toInt()
