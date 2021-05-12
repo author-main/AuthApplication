@@ -14,7 +14,6 @@ android {
         dataBinding = true
     }
 
-
     defaultConfig {
         applicationId "example.com.authapplication"
         minSdkVersion 23
