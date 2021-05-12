@@ -34,7 +34,7 @@ fun getColorResource(id: Int): Int =
 
 /*fun log(value: String){
     Log.v("authapp", value.toUpperCase(Locale.ROOT))
-}*/
+}
 
 fun setDialogStyle(dialog: AlertDialog, noTitle: Boolean = false) {
     dialog.setCanceledOnTouchOutside(false)
@@ -43,12 +43,15 @@ fun setDialogStyle(dialog: AlertDialog, noTitle: Boolean = false) {
     if (noTitle)
         dialog.window?.requestFeature(Window.FEATURE_NO_TITLE)
 }
-/*val Int.dp: Int
-    get() = (this / Resources.getSystem().displayMetrics.density).toInt()*/
+
+val Int.dp: Int
+    get() = (this / Resources.getSystem().displayMetrics.density).toInt()
+
 val Int.px: Int
     get() = (this * Resources.getSystem().displayMetrics.density).toInt()
+
 fun setWidthDialog(dialog: AlertDialog, widthDP: Int){
     val width: Int = widthDP.px
     val height = ViewGroup.LayoutParams.WRAP_CONTENT
     dialog.window!!.setLayout(width, height)
-}
+}*/
