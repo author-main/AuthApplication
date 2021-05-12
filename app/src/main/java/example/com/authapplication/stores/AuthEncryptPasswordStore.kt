@@ -30,12 +30,13 @@ class AuthEncryptPasswordStore: AuthPasswordStore {
 
     private fun initKeys(): Boolean{
         val keyStore = getKeyStore() ?: return false
-        try {
+        return try {
             val privateKey = keyStore.getKey(alias, null)
             val certificate = keyStore.getCertificate(alias)
-            return privateKey !=null && certificate?.publicKey != null
-        } catch (e: Exception){}
-        return false
+            privateKey !=null && certificate?.publicKey != null
+        } catch (e: Exception){
+            false
+        }
     }
 
     private fun generateKeys(){
@@ -60,15 +61,15 @@ class AuthEncryptPasswordStore: AuthPasswordStore {
 
     private fun getKeyStore(): KeyStore?{
         var keyStore: KeyStore? = null
-        try{
+        return try{
             keyStore = KeyStore.getInstance(providerKeyStore)
             keyStore?.load(null)
-            return keyStore
+            keyStore
         } catch (e: Exception) {
             keyStore?.deleteEntry(alias)
             clearCredentials()
+            null
         }
-        return null
     }
 
     override fun putPassword(password: String) {
@@ -99,24 +100,26 @@ class AuthEncryptPasswordStore: AuthPasswordStore {
 
 
     private fun encrypt(encryptionKey: PublicKey, data: ByteArray): String? {
-        try {
+        return try {
             val cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding")
             cipher.init(Cipher.ENCRYPT_MODE, encryptionKey)
             val encrypted = cipher.doFinal(data)
-            return Base64.encodeToString(encrypted, Base64.DEFAULT)
-        } catch (e: Exception){}
-        return null
+            Base64.encodeToString(encrypted, Base64.DEFAULT)
+        } catch (e: Exception){
+            null
+        }
     }
 
 
     override fun getPassword(cipher: Cipher): String? {
-        try {
+        return try {
             val encryptedPassword = sharedPrefs.getString(keyPassword, null) ?: return null
             val passwordBase64: ByteArray = Base64.decode(encryptedPassword, Base64.DEFAULT)
             val password = cipher.doFinal(passwordBase64) ?: return null
-            return String(password)
-        } catch(e:java.lang.Exception){}
-        return null
+            String(password)
+        } catch(e:java.lang.Exception){
+            null
+        }
     }
 
     override fun existPasswordStore() =
@@ -133,14 +136,14 @@ class AuthEncryptPasswordStore: AuthPasswordStore {
 
     override fun getCryptoObject(): Cipher? {
         val ks = getKeyStore() ?: return null
-        try {
+        return try {
             val privateKey: PrivateKey = ks.getKey(alias, null) as PrivateKey
             val cipher: Cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding")
             cipher.init(Cipher.DECRYPT_MODE, privateKey)
-            return cipher
+            cipher
         } catch (e: Exception){
+            null
         }
-        return null
     }
 
 }
