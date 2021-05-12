@@ -13,6 +13,7 @@ fun validateMail(email: String): Boolean {
     return !(email.isBlank() || !Patterns.EMAIL_ADDRESS.matcher(email).matches())
 }
 
+
 fun getStringResource(id: Int): String =
         try {
             AuthApplication.applicationContext().getString(id)
@@ -20,6 +21,7 @@ fun getStringResource(id: Int): String =
         catch (e: Exception){
             ""
         }
+
 
 fun getColorResource(id: Int): Int =
         try {
@@ -32,9 +34,6 @@ fun getColorResource(id: Int): Int =
             Color.TRANSPARENT
         }
 
-/*fun log(value: String){
-    Log.v("authapp", value.toUpperCase(Locale.ROOT))
-}*/
 
 fun setDialogStyle(dialog: AlertDialog, noTitle: Boolean = false) {
     dialog.setCanceledOnTouchOutside(false)
@@ -43,12 +42,22 @@ fun setDialogStyle(dialog: AlertDialog, noTitle: Boolean = false) {
     if (noTitle)
         dialog.window?.requestFeature(Window.FEATURE_NO_TITLE)
 }
-/*val Int.dp: Int
-    get() = (this / Resources.getSystem().displayMetrics.density).toInt()*/
+
+
+/*
+val Int.dp: Int
+    get() = (this / Resources.getSystem().displayMetrics.density).toInt()
+
 val Int.px: Int
     get() = (this * Resources.getSystem().displayMetrics.density).toInt()
+
 fun setWidthDialog(dialog: AlertDialog, widthDP: Int){
     val width: Int = widthDP.px
     val height = ViewGroup.LayoutParams.WRAP_CONTENT
     dialog.window!!.setLayout(width, height)
 }
+
+fun log(value: String){
+    Log.v("authapp", value.toUpperCase(Locale.ROOT))
+}
+*/

@@ -269,18 +269,18 @@ class LoginActivity : AppCompatActivity() {
             return
         }
         when (action) {
-            // * Handling signin
+            // * Обработка SignIn
             AuthAction.SIGNIN -> {
                 viewModel.saveEmailAddress(dataBinding.editTextEmail.text.toString())
                 viewModel.savePassword(viewModel.password)
                 accessed()
             }
-            // * Handling registration
+            // * Обработка Registration
             AuthAction.REGISTER -> {
                 updateEmail()
                 showToast(getString(R.string.dlgreg_success))
             }
-            // * Handling restore
+            // * Обработка Restore
             AuthAction.RESTORE -> {
                 updateEmail()
                 showToast(getString(R.string.dlgrest_success))
