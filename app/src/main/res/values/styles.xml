@@ -4,12 +4,7 @@
         <item name="android:background">@color/black_overlay</item>
     </style>
 
-    <style name="Widget.Theme.AuthApplication.ButtonBar.Fullscreen" parent="">
-        <item name="android:background">@color/black_overlay</item>
-        <item name="android:buttonBarStyle">?android:attr/buttonBarStyle</item>
-    </style>
-
-    <style name="AuthButton" parent="@style/Widget.MaterialComponents.Button">
+   <style name="AuthButton" parent="@style/Widget.MaterialComponents.Button">
         <item name="android:background">@drawable/ic_ripple</item>
         <item name="android:insetTop">0dp</item>
         <item name="android:insetBottom">0dp</item>
