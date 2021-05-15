@@ -53,7 +53,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var dataBinding: ActivityFullscreenBinding
     private lateinit var viewModel: AuthViewModel
     private val symbols = arrayOfNulls<TextView>(5)
-    private val hiddenSymbol = "\u2022"
+    private val hiddenSymbol = "•"//"\u2022"
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
