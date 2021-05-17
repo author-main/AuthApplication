@@ -26,7 +26,6 @@ import example.com.authapplication.mvvm.AuthViewModel
 import kotlinx.coroutines.*
 import javax.crypto.Cipher
 
-
 /**
  *
  * Пример аутентификации пользователя
@@ -54,7 +53,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var dataBinding: ActivityFullscreenBinding
     private lateinit var viewModel: AuthViewModel
     private val symbols = arrayOfNulls<TextView>(5)
-
+    private val hiddenSymbol = "•"//"\u2022"
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -73,6 +72,7 @@ class LoginActivity : AppCompatActivity() {
         viewModel.onAuthenticationBiometricComplete = { cryptoObject: Cipher? ->
             authenticationBiometricComplete(cryptoObject)
         }
+        lifecycle.addObserver(viewModel)
         dataBinding = DataBindingUtil.setContentView(
                 this,
                 R.layout.activity_fullscreen
@@ -86,11 +86,8 @@ class LoginActivity : AppCompatActivity() {
         supportActionBar?.hide()
         setNightMode()
         dataBinding.editTextEmail.setText(viewModel.loadEmailAddress())
-        changePassword(viewModel.password)
-
         val biometricAvailable = viewModel.canAuthenticateBiometric()
         val passwordSaved = viewModel.isStoredPassword()
-
         if (biometricAvailable && passwordSaved) {
             dataBinding.buttonFinger.isEnabled = true
             dataBinding.buttonFinger.alpha = 0.7f
@@ -121,7 +118,7 @@ class LoginActivity : AppCompatActivity() {
             symbols[index]?.setTextColor(viewModel.getColorFromResource(
                     R.color.design_default_color_on_primary
             ))
-            symbols[index]?.text = "\u2022"
+            symbols[index]?.text = hiddenSymbol
         }
         if (showSym){
             val index = password.length - 1
@@ -135,7 +132,7 @@ class LoginActivity : AppCompatActivity() {
                 ))
                 symbols[index]?.text = sym
                 delay(400)
-                symbols[index]?.text = "\u2022"
+                symbols[index]?.text = hiddenSymbol
                 val email = dataBinding.editTextEmail.text.toString()
                 if (password.length == 5 && isCorrectEmail(email)) {
                     showProgress()
@@ -160,8 +157,6 @@ class LoginActivity : AppCompatActivity() {
                     symbols[i]?.setTextColor(color)
                 }
             }
-
-
         }
     }
 

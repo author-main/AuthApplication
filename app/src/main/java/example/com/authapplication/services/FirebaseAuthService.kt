@@ -3,6 +3,8 @@ package example.com.authapplication.services
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import android.os.Build
+import androidx.annotation.RequiresApi
 import com.google.android.gms.tasks.Task
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.*
@@ -26,7 +28,6 @@ class FirebaseAuthService: AuthService {
         else
             authResultListener?.onAutentificationComplete(action, getErrorFromException(task.exception))
     }
-
 
     private fun authResultErrorConnection(action: AuthAction): Boolean{
         return if (!connectedInternet()) {
