@@ -8,13 +8,17 @@ import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.ViewModel
 import example.com.authapplication.data.AuthAction
 import example.com.authapplication.data.AuthValue
+import example.com.authapplication.dialogs.DialogStore
 import example.com.authapplication.getColorResource
 import example.com.authapplication.getStringResource
+import example.com.authapplication.interfaces.AuthRegistrationUser
+import example.com.authapplication.interfaces.AuthRestoreUser
 import example.com.authapplication.validateMail
 import javax.crypto.Cipher
 
 
 class AuthViewModel: ViewModel(), LifecycleObserver {
+    private var dialogStore: DialogStore? = null
     private val model: AuthModel = AuthModel()
     var dialogEmail:  String = ""
     var promptBiometricVisible:  Boolean = true
@@ -31,6 +35,8 @@ class AuthViewModel: ViewModel(), LifecycleObserver {
     var onClickButtonFinger: (() -> Unit)? = null
     var onClickButtonRegister: (() -> Unit)? = null
     var onClickButtonRemember: (() -> Unit)? = null
+    var onRegistrationUser:   ((email: String, password: String) -> Unit)? = null
+    var onRestoreUser:        ((email: String) -> Unit)? = null
 
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
@@ -136,4 +142,40 @@ class AuthViewModel: ViewModel(), LifecycleObserver {
     fun correctEmail(email: String) 			= validateMail(email)
     fun getStringFromResource(id: Int): String 	= getStringResource(id)
     fun getColorFromResource(id: Int): Int 		= getColorResource(id)
+
+    fun getDialogStore(context: Context){
+        if (dialogStore == null) {
+            dialogStore = DialogStore(context)
+            dialogStore?.addRegistrationUserListener(object: AuthRegistrationUser{
+                override fun onRegistrationUser(email: String, password: String) {
+                    onRegistrationUser?.invoke(email, password)
+                }
+            })
+            dialogStore?.addRestoreUserListener(object: AuthRestoreUser{
+                override fun onRestoreUser(email: String) {
+                    onRestoreUser?.invoke(email)
+                }
+            })
+        }
+        else
+            dialogStore?.setContext(context)
+
+    }
+
+    fun showRegisterDialog(email: String){
+        dialogStore?.showDialogRegistration(email)
+    }
+
+    fun showRestoreDialog(email: String){
+        dialogStore?.showDialogRestore(email)
+    }
+
+    fun showProgress(){
+        dialogStore?.showProgress()
+    }
+
+    fun hideProgress(){
+        dialogStore?.hideProgress()
+    }
+
 }

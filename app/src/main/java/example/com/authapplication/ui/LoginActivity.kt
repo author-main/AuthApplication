@@ -51,9 +51,9 @@ class LoginActivity : AppCompatActivity() {
     private val tagDialogRestore  = "DIALOG_RESTORE"
     private val tagDialogRegister = "DIALOG_REGISTER"
     private var job: Job? = null
-    private var dialogProgress: DialogProgress? = null
+ /*   private var dialogProgress: DialogProgress? = null
     private var dialogRestore:  DialogRestore? = null
-    private var dialogRegister: DialogRegister? = null
+    private var dialogRegister: DialogRegister? = null*/
     private lateinit var dataBinding: ActivityFullscreenBinding
     private lateinit var viewModel: AuthViewModel
     private val symbols = arrayOfNulls<TextView>(5)
@@ -67,8 +67,8 @@ class LoginActivity : AppCompatActivity() {
         viewModel.setModelContext(this)
         viewModel.onChangePassword =
             { password: String, showSym: Boolean -> changePassword(password, showSym) }
-        viewModel.onClickButtonRegister = {showDialogRegister()}
-        viewModel.onClickButtonRemember = {showDialogRestore()}
+        viewModel.onClickButtonRegister = {viewModel.showRegisterDialog(dataBinding.editTextEmail.text.toString())}
+        viewModel.onClickButtonRemember = {viewModel.showRestoreDialog(dataBinding.editTextEmail.text.toString())}
         viewModel.onClickButtonFinger   = {promptFingerPrint()}
         viewModel.onAuthenticationComplete = { action: AuthAction, result: AuthValue ->
             authenticationComplete(action, result)
@@ -98,14 +98,17 @@ class LoginActivity : AppCompatActivity() {
             if (viewModel.promptBiometricVisible)
                 promptFingerPrint()
         }
-        dialogRegister = supportFragmentManager.findFragmentByTag(tagDialogRegister) as? DialogRegister
+        viewModel.getDialogStore(this)
+        viewModel.onRegistrationUser = { email: String, password: String -> registerUser(email, password) }
+        viewModel.onRestoreUser = { email: String -> restoreUser(email) }
+       /* dialogRegister = supportFragmentManager.findFragmentByTag(tagDialogRegister) as? DialogRegister
         dialogRestore  = supportFragmentManager.findFragmentByTag(tagDialogRestore)  as? DialogRestore
         dialogRegister?.onRegisterUser = { email: String, password: String ->
             registerUser(email, password)
         }
         dialogRestore?.onRestoreUser = { email: String ->
             restoreUser(email)
-        }
+        }*/
     }
 
 
@@ -146,7 +149,7 @@ class LoginActivity : AppCompatActivity() {
                 symbols[index]?.text = hiddenSymbol
                 val email = dataBinding.editTextEmail.text.toString()
                 if (password.length == 5 && isCorrectEmail(email)) {
-                    showProgress()
+                    viewModel.showProgress()
                     viewModel.signIn(email, password)
                 }
             }
@@ -196,7 +199,7 @@ class LoginActivity : AppCompatActivity() {
         return result
     }
 
-    private fun showDialogRestore(){
+  /*  private fun showDialogRestore(){
         dialogRestore = DialogRestore()
         dialogRestore?.let { dialog ->
             dialog.onRestoreUser = { email: String ->
@@ -207,21 +210,19 @@ class LoginActivity : AppCompatActivity() {
             }
             dialog.show(supportFragmentManager, tagDialogRestore)
         }
-    }
+    }*/
 
     private fun restoreUser(email: String){
-        showProgress()
         viewModel.dialogEmail = email
         viewModel.restoreUser(email)
     }
 
     private fun registerUser(email: String, password: String){
-        showProgress()
         viewModel.dialogEmail = email
         viewModel.registerUser(email, password)
     }
 
-    private fun showDialogRegister(){
+ /*   private fun showDialogRegister(){
         dialogRegister = DialogRegister()
         dialogRegister?.let { dialog ->
             dialog.onRegisterUser = { email: String, password: String ->
@@ -242,7 +243,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun hideProgress() {
         dialogProgress?.dismiss()
-    }
+    }*/
 
     private fun showToast(message: String){
         val toast: Toast = Toast.makeText(this, message, Toast.LENGTH_LONG)
@@ -283,7 +284,7 @@ class LoginActivity : AppCompatActivity() {
             dataBinding.editTextEmail.setText(viewModel.dialogEmail)
             viewModel.saveEmailAddress(viewModel.dialogEmail)
         }
-        hideProgress()
+        viewModel.hideProgress()
         if (result != AuthValue.SUCCESSFUL){
             showError(result)
             if (action == AuthAction.SIGNIN)
@@ -318,7 +319,7 @@ class LoginActivity : AppCompatActivity() {
             if (!isCorrectEmail(email) || password.isNullOrBlank())
                 return
             viewModel.password = password
-            showProgress()
+            viewModel.showProgress()
             viewModel.signIn(email, password)
         }
         else
