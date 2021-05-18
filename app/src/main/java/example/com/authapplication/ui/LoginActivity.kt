@@ -50,7 +50,6 @@ class LoginActivity : AppCompatActivity() {
     }
     private val dialogStore = DialogStore(this)
     private var job: Job? = null
-    //private var dialogProgress: DialogProgress? = null
     private lateinit var dataBinding: ActivityFullscreenBinding
     private lateinit var viewModel: AuthViewModel
     private val symbols = arrayOfNulls<TextView>(5)
@@ -198,68 +197,6 @@ class LoginActivity : AppCompatActivity() {
             editTextMail.error = null
         return result
     }
-
- /*   private fun showDialogRestore(){
-        dialogStore.showDialogRestore(dataBinding.editTextEmail.text.toString())
-        /*val dialogRestore = DialogRestore()
-        dialogRestore.onRestoreUser = { email: String ->
-            showProgress()
-            viewModel.dialogEmail = email
-            viewModel.restoreUser(email)
-        }
-        dialogRestore.arguments = Bundle().apply {
-            putString("email", dataBinding.editTextEmail.text.toString())
-        }
-        dialogRestore.show(supportFragmentManager, "DIALOG_RESTORE")*/
-    }
-
-    private fun showDialogRegister(){
-     /*   var cycle = 0
-        suspend fun runThread(): Int =
-            suspendCoroutine { continuation ->
-                Thread(Runnable {
-                    for (i in 0..50000)
-                        if (i % 1000 == 0) {
-                            cycle += 1000
-                            log(i.toString())
-                        }
-                    continuation.resume(cycle)
-                }).start()
-            }
-        val job: Job = Job()
-        val scope = CoroutineScope(Dispatchers.Main + job)
-        scope.launch {
-            coroutineScope {
-                runThread()
-                log("end ${cycle.toString()}")
-            }
-        }*/
-
-      /*  val dialogRegister = DialogRegister()
-        dialogRegister.onRegisterUser = { email: String, password: String ->
-            showProgress()
-            viewModel.dialogEmail = email
-            viewModel.registerUser(email, password)
-        }
-        dialogRegister.arguments = Bundle().apply {
-            putString("email", dataBinding.editTextEmail.text.toString())
-        }
-        dialogRegister.show(supportFragmentManager, "DIALOG_REGISTER")*/
-        dialogStore.showDialogRegister(dataBinding.editTextEmail.text.toString())
-    }
-
-
-    private fun showProgress() {
-        dialogStore.showProgress()
-        /*dialogProgress = DialogProgress(this)
-        dialogProgress?.show()*/
-    }
-
-    private fun hideProgress() {
-        //dialogProgress?.dismiss()
-        dialogStore.hideProgress()
-    }
-*/
 
     private fun showToast(message: String){
         val toast: Toast = Toast.makeText(this, message, Toast.LENGTH_LONG)
