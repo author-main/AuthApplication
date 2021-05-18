@@ -48,12 +48,8 @@ class LoginActivity : AppCompatActivity() {
             )
         }
     }
-    private val tagDialogRestore  = "DIALOG_RESTORE"
-    private val tagDialogRegister = "DIALOG_REGISTER"
+
     private var job: Job? = null
- /*   private var dialogProgress: DialogProgress? = null
-    private var dialogRestore:  DialogRestore? = null
-    private var dialogRegister: DialogRegister? = null*/
     private lateinit var dataBinding: ActivityFullscreenBinding
     private lateinit var viewModel: AuthViewModel
     private val symbols = arrayOfNulls<TextView>(5)
@@ -101,14 +97,6 @@ class LoginActivity : AppCompatActivity() {
         viewModel.getDialogStore(this)
         viewModel.onRegistrationUser = { email: String, password: String -> registerUser(email, password) }
         viewModel.onRestoreUser = { email: String -> restoreUser(email) }
-       /* dialogRegister = supportFragmentManager.findFragmentByTag(tagDialogRegister) as? DialogRegister
-        dialogRestore  = supportFragmentManager.findFragmentByTag(tagDialogRestore)  as? DialogRestore
-        dialogRegister?.onRegisterUser = { email: String, password: String ->
-            registerUser(email, password)
-        }
-        dialogRestore?.onRestoreUser = { email: String ->
-            restoreUser(email)
-        }*/
     }
 
 
@@ -199,19 +187,6 @@ class LoginActivity : AppCompatActivity() {
         return result
     }
 
-  /*  private fun showDialogRestore(){
-        dialogRestore = DialogRestore()
-        dialogRestore?.let { dialog ->
-            dialog.onRestoreUser = { email: String ->
-                restoreUser(email)
-            }
-            dialog.arguments = Bundle().apply {
-                putString("email", dataBinding.editTextEmail.text.toString())
-            }
-            dialog.show(supportFragmentManager, tagDialogRestore)
-        }
-    }*/
-
     private fun restoreUser(email: String){
         viewModel.dialogEmail = email
         viewModel.restoreUser(email)
@@ -221,29 +196,6 @@ class LoginActivity : AppCompatActivity() {
         viewModel.dialogEmail = email
         viewModel.registerUser(email, password)
     }
-
- /*   private fun showDialogRegister(){
-        dialogRegister = DialogRegister()
-        dialogRegister?.let { dialog ->
-            dialog.onRegisterUser = { email: String, password: String ->
-                registerUser(email, password)
-            }
-            dialog.arguments = Bundle().apply {
-                putString("email", dataBinding.editTextEmail.text.toString())
-            }
-            dialog.show(supportFragmentManager, tagDialogRegister)
-        }
-    }
-
-
-    private fun showProgress() {
-        dialogProgress = DialogProgress(this)
-        dialogProgress?.show()
-    }
-
-    private fun hideProgress() {
-        dialogProgress?.dismiss()
-    }*/
 
     private fun showToast(message: String){
         val toast: Toast = Toast.makeText(this, message, Toast.LENGTH_LONG)
