@@ -48,6 +48,8 @@ class LoginActivity : AppCompatActivity() {
             )
         }
     }
+    private val tagDialogRestore  = "DIALOG_RESTORE"
+    private val tagDialogRegister = "DIALOG_REGISTER"
     private var job: Job? = null
     private var dialogProgress: DialogProgress? = null
     private var dialogRestore:  DialogRestore? = null
@@ -95,6 +97,14 @@ class LoginActivity : AppCompatActivity() {
             dataBinding.buttonFinger.alpha = 0.7f
             if (viewModel.promptBiometricVisible)
                 promptFingerPrint()
+        }
+        dialogRegister = supportFragmentManager.findFragmentByTag(tagDialogRegister) as? DialogRegister
+        dialogRestore  = supportFragmentManager.findFragmentByTag(tagDialogRestore)  as? DialogRestore
+        dialogRegister?.onRegisterUser = { email: String, password: String ->
+            registerUser(email, password)
+        }
+        dialogRestore?.onRestoreUser = { email: String ->
+            restoreUser(email)
         }
     }
 
@@ -187,29 +197,41 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun showDialogRestore(){
-        val dialogRestore = DialogRestore()
-        dialogRestore.onRestoreUser = { email: String ->
-            showProgress()
-            viewModel.dialogEmail = email
-            viewModel.restoreUser(email)
+        dialogRestore = DialogRestore()
+        dialogRestore?.let { dialog ->
+            dialog.onRestoreUser = { email: String ->
+                restoreUser(email)
+            }
+            dialog.arguments = Bundle().apply {
+                putString("email", dataBinding.editTextEmail.text.toString())
+            }
+            dialog.show(supportFragmentManager, tagDialogRestore)
         }
-        dialogRestore.arguments = Bundle().apply {
-            putString("email", dataBinding.editTextEmail.text.toString())
-        }
-        dialogRestore.show(supportFragmentManager, "DIALOG_RESTORE")
+    }
+
+    private fun restoreUser(email: String){
+        showProgress()
+        viewModel.dialogEmail = email
+        viewModel.restoreUser(email)
+    }
+
+    private fun registerUser(email: String, password: String){
+        showProgress()
+        viewModel.dialogEmail = email
+        viewModel.registerUser(email, password)
     }
 
     private fun showDialogRegister(){
-        val dialogRegister = DialogRegister()
-        dialogRegister.onRegisterUser = { email: String, password: String ->
-            showProgress()
-            viewModel.dialogEmail = email
-            viewModel.registerUser(email, password)
+        dialogRegister = DialogRegister()
+        dialogRegister?.let { dialog ->
+            dialog.onRegisterUser = { email: String, password: String ->
+                registerUser(email, password)
+            }
+            dialog.arguments = Bundle().apply {
+                putString("email", dataBinding.editTextEmail.text.toString())
+            }
+            dialog.show(supportFragmentManager, tagDialogRegister)
         }
-        dialogRegister.arguments = Bundle().apply {
-            putString("email", dataBinding.editTextEmail.text.toString())
-        }
-        dialogRegister.show(supportFragmentManager, "DIALOG_REGISTER")
     }
 
 
