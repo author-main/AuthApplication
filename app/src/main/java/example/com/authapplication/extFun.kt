@@ -3,6 +3,7 @@ package example.com.authapplication
 import android.content.res.Resources
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.util.Log
 import android.util.Patterns
 import android.view.ViewGroup
 import android.view.Window
@@ -58,6 +59,5 @@ fun setWidthDialog(dialog: AlertDialog, widthDP: Int){
 }
 
 fun log(value: String){
-    Log.v("authapp", value.toUpperCase(Locale.ROOT))
-}
-*/
+    Log.v("authapp", value.uppercase())
+}*/

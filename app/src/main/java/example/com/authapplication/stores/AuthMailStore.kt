@@ -15,7 +15,5 @@ class AuthMailStore: AuthEmailStore {
         sharedPrefs.edit().putString(keyEmail, email).apply()
     }
 
-    override fun getEmail(): String? {
-        return sharedPrefs.getString(keyEmail, null)
-    }
+    override fun getEmail(): String? = sharedPrefs.getString(keyEmail, null)
 }
