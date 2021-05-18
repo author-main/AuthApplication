@@ -19,9 +19,9 @@ import example.com.authapplication.*
 import example.com.authapplication.data.AuthAction
 import example.com.authapplication.data.AuthValue
 import example.com.authapplication.databinding.ActivityFullscreenBinding
-import example.com.authapplication.dialogs.DialogStore
-import example.com.authapplication.interfaces.AuthRegistrationUser
-import example.com.authapplication.interfaces.AuthRestoreUser
+import example.com.authapplication.dialogs.DialogProgress
+import example.com.authapplication.dialogs.DialogRegister
+import example.com.authapplication.dialogs.DialogRestore
 import example.com.authapplication.mvvm.AuthViewModel
 import kotlinx.coroutines.*
 import javax.crypto.Cipher
@@ -48,9 +48,10 @@ class LoginActivity : AppCompatActivity() {
             )
         }
     }
-    private val dialogStore = DialogStore(this)
     private var job: Job? = null
-    //private var dialogProgress: DialogProgress? = null
+    private var dialogProgress: DialogProgress? = null
+    private var dialogRestore:  DialogRestore? = null
+    private var dialogRegister: DialogRegister? = null
     private lateinit var dataBinding: ActivityFullscreenBinding
     private lateinit var viewModel: AuthViewModel
     private val symbols = arrayOfNulls<TextView>(5)
@@ -64,8 +65,8 @@ class LoginActivity : AppCompatActivity() {
         viewModel.setModelContext(this)
         viewModel.onChangePassword =
                 { password: String, showSym: Boolean -> changePassword(password, showSym) }
-        viewModel.onClickButtonRegister = {dialogStore.showDialogRegister(dataBinding.editTextEmail.text.toString())}
-        viewModel.onClickButtonRemember = {dialogStore.showDialogRestore(dataBinding.editTextEmail.text.toString())}
+        viewModel.onClickButtonRegister = {showDialogRegister()}
+        viewModel.onClickButtonRemember = {showDialogRestore()}
         viewModel.onClickButtonFinger   = {promptFingerPrint()}
         viewModel.onAuthenticationComplete = { action: AuthAction, result: AuthValue ->
             authenticationComplete(action, result)
@@ -95,19 +96,6 @@ class LoginActivity : AppCompatActivity() {
             if (viewModel.promptBiometricVisible)
                 promptFingerPrint()
         }
-        dialogStore.onRestoreUser = object : AuthRestoreUser {
-            override fun onRestoreUser(email: String) {
-                viewModel.dialogEmail = email
-                viewModel.restoreUser(email)
-            }
-        }
-        dialogStore.onRegistrationUser = object: AuthRegistrationUser{
-            override fun onRegistrationUser(email: String, password: String) {
-                viewModel.dialogEmail = email
-                viewModel.registerUser(email, password)
-            }
-        }
-
     }
 
 
@@ -148,8 +136,7 @@ class LoginActivity : AppCompatActivity() {
                 symbols[index]?.text = hiddenSymbol
                 val email = dataBinding.editTextEmail.text.toString()
                 if (password.length == 5 && isCorrectEmail(email)) {
-                    //showProgress()
-                        dialogStore.showProgress()
+                    showProgress()
                     viewModel.signIn(email, password)
                 }
             }
@@ -199,9 +186,8 @@ class LoginActivity : AppCompatActivity() {
         return result
     }
 
- /*   private fun showDialogRestore(){
-        dialogStore.showDialogRestore(dataBinding.editTextEmail.text.toString())
-        /*val dialogRestore = DialogRestore()
+    private fun showDialogRestore(){
+        val dialogRestore = DialogRestore()
         dialogRestore.onRestoreUser = { email: String ->
             showProgress()
             viewModel.dialogEmail = email
@@ -210,32 +196,11 @@ class LoginActivity : AppCompatActivity() {
         dialogRestore.arguments = Bundle().apply {
             putString("email", dataBinding.editTextEmail.text.toString())
         }
-        dialogRestore.show(supportFragmentManager, "DIALOG_RESTORE")*/
+        dialogRestore.show(supportFragmentManager, "DIALOG_RESTORE")
     }
 
     private fun showDialogRegister(){
-     /*   var cycle = 0
-        suspend fun runThread(): Int =
-            suspendCoroutine { continuation ->
-                Thread(Runnable {
-                    for (i in 0..50000)
-                        if (i % 1000 == 0) {
-                            cycle += 1000
-                            log(i.toString())
-                        }
-                    continuation.resume(cycle)
-                }).start()
-            }
-        val job: Job = Job()
-        val scope = CoroutineScope(Dispatchers.Main + job)
-        scope.launch {
-            coroutineScope {
-                runThread()
-                log("end ${cycle.toString()}")
-            }
-        }*/
-
-      /*  val dialogRegister = DialogRegister()
+        val dialogRegister = DialogRegister()
         dialogRegister.onRegisterUser = { email: String, password: String ->
             showProgress()
             viewModel.dialogEmail = email
@@ -244,22 +209,18 @@ class LoginActivity : AppCompatActivity() {
         dialogRegister.arguments = Bundle().apply {
             putString("email", dataBinding.editTextEmail.text.toString())
         }
-        dialogRegister.show(supportFragmentManager, "DIALOG_REGISTER")*/
-        dialogStore.showDialogRegister(dataBinding.editTextEmail.text.toString())
+        dialogRegister.show(supportFragmentManager, "DIALOG_REGISTER")
     }
 
 
     private fun showProgress() {
-        dialogStore.showProgress()
-        /*dialogProgress = DialogProgress(this)
-        dialogProgress?.show()*/
+        dialogProgress = DialogProgress(this)
+        dialogProgress?.show()
     }
 
     private fun hideProgress() {
-        //dialogProgress?.dismiss()
-        dialogStore.hideProgress()
+        dialogProgress?.dismiss()
     }
-*/
 
     private fun showToast(message: String){
         val toast: Toast = Toast.makeText(this, message, Toast.LENGTH_LONG)
@@ -300,8 +261,7 @@ class LoginActivity : AppCompatActivity() {
             dataBinding.editTextEmail.setText(viewModel.dialogEmail)
             viewModel.saveEmailAddress(viewModel.dialogEmail)
         }
-        //hideProgress()
-        dialogStore.hideProgress()
+        hideProgress()
         if (result != AuthValue.SUCCESSFUL){
             showError(result)
             if (action == AuthAction.SIGNIN)
@@ -336,8 +296,7 @@ class LoginActivity : AppCompatActivity() {
             if (!isCorrectEmail(email) || password.isNullOrBlank())
                 return
             viewModel.password = password
-            //showProgress()
-            dialogStore.showProgress()
+            showProgress()
             viewModel.signIn(email, password)
         }
         else
