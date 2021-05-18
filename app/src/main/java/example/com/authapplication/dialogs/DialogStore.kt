@@ -38,9 +38,6 @@ class DialogStore(private var context: Context){
         mRestoreUser = value
     }
 
-
-    //private fun getFragmentManager(): FragmentManager = (context as FragmentActivity).supportFragmentManager
-
     private fun restoreUser(email: String){
         showProgress()
         mRestoreUser?.onRestoreUser(email)
