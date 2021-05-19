@@ -234,12 +234,12 @@ class LoginActivity : AppCompatActivity() {
             // * Обработка Registration
             AuthAction.REGISTER -> {
                 updateEmail()
-                MessageHandler.showToast(getString(R.string.dlgreg_success), this)
+                MessageHandler.showMessage(getString(R.string.dlgreg_success), this)
             }
             // * Обработка Restore
             AuthAction.RESTORE -> {
                 updateEmail()
-                MessageHandler.showToast(getString(R.string.dlgrest_success), this)
+                MessageHandler.showMessage(getString(R.string.dlgrest_success), this)
             }
         }
     }

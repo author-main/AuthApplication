@@ -12,7 +12,7 @@ import example.com.authapplication.getStringResource
 
 class MessageHandler {
     companion object {
-        fun showToast(message: String, context: Context) {
+        fun showMessage(message: String, context: Context) {
             val toast: Toast = Toast.makeText(context, message, Toast.LENGTH_LONG)
             val centeredText: Spannable = SpannableString(message)
             centeredText.setSpan(
@@ -44,7 +44,7 @@ class MessageHandler {
                     }
 
                 }
-            showToast(getStringResource(idErrorMessage), context)
+            showMessage(getStringResource(idErrorMessage), context)
         }
     }
 }
