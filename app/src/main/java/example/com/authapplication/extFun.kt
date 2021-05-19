@@ -55,8 +55,8 @@ fun setWidthDialog(dialog: AlertDialog, widthDP: Int){
     val width: Int = widthDP.px
     val height = ViewGroup.LayoutParams.WRAP_CONTENT
     dialog.window!!.setLayout(width, height)
-}*/
+}
 
 fun log(value: String){
     Log.v("authapp", value.uppercase())
-}
+}*/
