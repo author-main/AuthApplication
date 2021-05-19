@@ -28,7 +28,7 @@ class DialogStore(private var context: Context){
         dialogRegister?.onRegisterUser = { email: String, password: String ->
             registerUser(email, password)
         }
-        dialogProgress?.showProgress()
+        showProgress()
     }
 
     fun addRegistrationUserListener(value: AuthRegistrationUser){
