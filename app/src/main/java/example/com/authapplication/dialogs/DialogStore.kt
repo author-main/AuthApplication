@@ -76,8 +76,7 @@ class DialogStore(private var context: Context){
     }
 
     fun showProgress(){
-        if (dialogProgress == null)
-            dialogProgress = DialogProgress(context)
+        dialogProgress = DialogProgress(context)
         dialogProgress?.show()
     }
 

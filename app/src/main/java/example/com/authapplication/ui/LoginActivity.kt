@@ -63,9 +63,15 @@ class LoginActivity : AppCompatActivity() {
         viewModel.setModelContext(this)
         viewModel.onChangePassword =
             { password: String, showSym: Boolean -> changePassword(password, showSym) }
-        viewModel.onClickButtonRegister = {viewModel.showRegisterDialog(dataBinding.editTextEmail.text.toString())}
-        viewModel.onClickButtonRemember = {viewModel.showRestoreDialog(dataBinding.editTextEmail.text.toString())}
-        viewModel.onClickButtonFinger   = {promptFingerPrint()}
+        viewModel.onClickButtonRegister = {
+            viewModel.showRegisterDialog(dataBinding.editTextEmail.text.toString())
+        }
+        viewModel.onClickButtonRemember = {
+            viewModel.showRestoreDialog(dataBinding.editTextEmail.text.toString())
+        }
+        viewModel.onClickButtonFinger   = {
+            promptFingerPrint()
+        }
         viewModel.onAuthenticationComplete = { action: AuthAction, result: AuthValue ->
             authenticationComplete(action, result)
         }
@@ -94,11 +100,18 @@ class LoginActivity : AppCompatActivity() {
             if (viewModel.promptBiometricVisible)
                 promptFingerPrint()
         }
-        viewModel.getDialogStore(this)
-        viewModel.onRegistrationUser = { email: String, password: String -> registerUser(email, password) }
-        viewModel.onRestoreUser = { email: String -> restoreUser(email) }
+        getDialogStore()
     }
 
+    private fun getDialogStore(){
+        viewModel.getDialogStore(this)
+        viewModel.onRegistrationUser = { email: String, password: String ->
+            registerUser(email, password)
+        }
+        viewModel.onRestoreUser = { email: String ->
+            restoreUser(email)
+        }
+    }
 
     override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
         val editTextRect = Rect()
