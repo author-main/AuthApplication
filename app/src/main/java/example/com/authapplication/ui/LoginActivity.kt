@@ -61,8 +61,9 @@ class LoginActivity : AppCompatActivity() {
         viewModel =
             ViewModelProvider(this).get(AuthViewModel::class.java)
         viewModel.setModelContext(this)
-        viewModel.onChangePassword =
-            { password: String, showSym: Boolean -> changePassword(password, showSym) }
+        viewModel.onChangePassword = {password: String, showSym: Boolean ->
+            changePassword(password, showSym)
+        }
         viewModel.onClickButtonRegister = {
             viewModel.showRegisterDialog(dataBinding.editTextEmail.text.toString())
         }
