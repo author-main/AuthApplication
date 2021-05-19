@@ -1,9 +1,11 @@
-package example.com.authapplication.dialogs
+package example.com.authapplication.stores
 
 import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.FragmentActivity
-import androidx.fragment.app.FragmentManager
+import example.com.authapplication.dialogs.DialogProgress
+import example.com.authapplication.dialogs.DialogRegister
+import example.com.authapplication.dialogs.DialogRestore
 import example.com.authapplication.interfaces.AuthRegistrationUser
 import example.com.authapplication.interfaces.AuthRestoreUser
 

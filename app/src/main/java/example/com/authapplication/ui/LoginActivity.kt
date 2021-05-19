@@ -22,6 +22,7 @@ import example.com.authapplication.databinding.ActivityFullscreenBinding
 import example.com.authapplication.dialogs.DialogProgress
 import example.com.authapplication.dialogs.DialogRegister
 import example.com.authapplication.dialogs.DialogRestore
+import example.com.authapplication.message_handler.MessageHandler
 import example.com.authapplication.mvvm.AuthViewModel
 import kotlinx.coroutines.*
 import javax.crypto.Cipher
@@ -211,40 +212,6 @@ class LoginActivity : AppCompatActivity() {
         viewModel.registerUser(email, password)
     }
 
-    private fun showToast(message: String){
-        val toast: Toast = Toast.makeText(this, message, Toast.LENGTH_LONG)
-        val centeredText: Spannable = SpannableString(message)
-        centeredText.setSpan(AlignmentSpan.Standard(Layout.Alignment.ALIGN_CENTER),
-            0, message.length - 1,
-            Spannable.SPAN_INCLUSIVE_INCLUSIVE)
-        toast.show()
-    }
-
-    private fun showError(error: AuthValue){
-        val idErrorMessage =
-            when (error){
-                AuthValue.ERROR_CONNECTION -> {
-                    R.string.error_connected_internet
-                }
-                AuthValue.ERROR_ALREADY_EMAIL -> {
-                    R.string.error_already_email
-                }
-                AuthValue.ERROR_USER_DATA -> {
-                    R.string.error_login_message
-                }
-                AuthValue.ERROR_RESTORE -> {
-                    R.string.error_restore_password
-                }
-                else -> {
-                    //AuthValue.ERROR_AUTH_SERVICE ->{
-                    R.string.error_auth_service
-                }
-
-            }
-        showToast(getStringResource(idErrorMessage))
-    }
-
-
     private fun authenticationComplete(action: AuthAction, result: AuthValue){
         fun updateEmail(){
             dataBinding.editTextEmail.setText(viewModel.dialogEmail)
@@ -252,7 +219,7 @@ class LoginActivity : AppCompatActivity() {
         }
         viewModel.hideProgress()
         if (result != AuthValue.SUCCESSFUL){
-            showError(result)
+            MessageHandler.showError(result, this)
             if (action == AuthAction.SIGNIN)
                 viewModel.password = ""
             return
@@ -267,12 +234,12 @@ class LoginActivity : AppCompatActivity() {
             // * Обработка Registration
             AuthAction.REGISTER -> {
                 updateEmail()
-                showToast(getString(R.string.dlgreg_success))
+                MessageHandler.showToast(getString(R.string.dlgreg_success), this)
             }
             // * Обработка Restore
             AuthAction.RESTORE -> {
                 updateEmail()
-                showToast(getString(R.string.dlgrest_success))
+                MessageHandler.showToast(getString(R.string.dlgrest_success), this)
             }
         }
     }

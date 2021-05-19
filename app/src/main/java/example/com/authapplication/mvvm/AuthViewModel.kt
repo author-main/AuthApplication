@@ -8,7 +8,7 @@ import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.ViewModel
 import example.com.authapplication.data.AuthAction
 import example.com.authapplication.data.AuthValue
-import example.com.authapplication.dialogs.DialogStore
+import example.com.authapplication.stores.DialogStore
 import example.com.authapplication.getColorResource
 import example.com.authapplication.getStringResource
 import example.com.authapplication.interfaces.AuthRegistrationUser
