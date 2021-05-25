@@ -115,11 +115,10 @@ class AuthEncryptPasswordStore: AuthPasswordStore {
         }
     }
 
-    override fun existPasswordStore(): Boolean {
-        val value = sharedPrefs.getString(keyPassword, null)
-        return !value.isNullOrEmpty()
+    override fun existPasswordStore() =
+        sharedPrefs.getString(keyPassword, null) != null
         //sharedPrefs.getBoolean(keyCredentials, false)
-    }
+
 
 
     override fun getCryptoObject(): Cipher? {
