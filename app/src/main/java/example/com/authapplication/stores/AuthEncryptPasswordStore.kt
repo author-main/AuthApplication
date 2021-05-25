@@ -18,7 +18,7 @@ import javax.crypto.Cipher
 class AuthEncryptPasswordStore: AuthPasswordStore {
     private val filePreferences = "settings"
     private val keyPassword     = "password"
-    private val keyCredentials  = "credentials"
+    //private val keyCredentials  = "credentials"
     private val sharedPrefs: SharedPreferences =
             AuthApplication.applicationContext().getSharedPreferences(filePreferences, Context.MODE_PRIVATE)
     private val providerKeyStore: String = "AndroidKeyStore"
@@ -67,7 +67,8 @@ class AuthEncryptPasswordStore: AuthPasswordStore {
             keyStore
         } catch (e: Exception) {
             keyStore?.deleteEntry(alias)
-            clearCredentials()
+            sharedPrefs.edit().remove(keyPassword).apply()
+            //clearCredentials()
             null
         }
     }
@@ -83,20 +84,21 @@ class AuthEncryptPasswordStore: AuthPasswordStore {
                     passwordUTF
             )
             encryptPassword?.let {
-                putPreferenceValue(keyPassword, encryptPassword)
-                putPreferenceValue(keyCredentials, true)
+                sharedPrefs.edit().putString(keyPassword, encryptPassword).apply()
+                /*putPreferenceValue(keyPassword, encryptPassword)
+                putPreferenceValue(keyCredentials, true)*/
             }
         } catch (e: Exception){}
     }
 
-    private fun clearCredentials() {
+    /*private fun clearCredentials() {
         removePreferenceKey(keyCredentials)
         removePreferenceKey(keyPassword)
     }
 
     private fun removePreferenceKey(key: String){
         sharedPrefs.edit().remove(key).apply()
-    }
+    }*/
 
 
     private fun encrypt(encryptionKey: PublicKey, data: ByteArray): String? {
@@ -122,17 +124,20 @@ class AuthEncryptPasswordStore: AuthPasswordStore {
         }
     }
 
-    override fun existPasswordStore() =
-        sharedPrefs.getBoolean(keyCredentials, false)
+    override fun existPasswordStore(): Boolean {
+        val value = sharedPrefs.getString(keyPassword, null)
+        return !value.isNullOrEmpty()
+        //sharedPrefs.getBoolean(keyCredentials, false)
+    }
 
 
-    private fun <T> putPreferenceValue(key: String, value: T){
+ /*   private fun <T> putPreferenceValue(key: String, value: T){
         if (value is String)
             sharedPrefs.edit().putString(key, value).apply()
         if (value is Boolean)
             sharedPrefs.edit().putBoolean(key, value).apply()
 
-    }
+    }*/
 
     override fun getCryptoObject(): Cipher? {
         val ks = getKeyStore() ?: return null
