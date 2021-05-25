@@ -91,15 +91,6 @@ class AuthEncryptPasswordStore: AuthPasswordStore {
         } catch (e: Exception){}
     }
 
-    /*private fun clearCredentials() {
-        removePreferenceKey(keyCredentials)
-        removePreferenceKey(keyPassword)
-    }
-
-    private fun removePreferenceKey(key: String){
-        sharedPrefs.edit().remove(key).apply()
-    }*/
-
 
     private fun encrypt(encryptionKey: PublicKey, data: ByteArray): String? {
         return try {
@@ -131,14 +122,6 @@ class AuthEncryptPasswordStore: AuthPasswordStore {
     }
 
 
- /*   private fun <T> putPreferenceValue(key: String, value: T){
-        if (value is String)
-            sharedPrefs.edit().putString(key, value).apply()
-        if (value is Boolean)
-            sharedPrefs.edit().putBoolean(key, value).apply()
-
-    }*/
-
     override fun getCryptoObject(): Cipher? {
         val ks = getKeyStore() ?: return null
         return try {
@@ -150,5 +133,22 @@ class AuthEncryptPasswordStore: AuthPasswordStore {
             null
         }
     }
+
+
+    /*private fun <T> putPreferenceValue(key: String, value: T){
+        if (value is String)
+            sharedPrefs.edit().putString(key, value).apply()
+        if (value is Boolean)
+            sharedPrefs.edit().putBoolean(key, value).apply()
+
+    }
+       private fun clearCredentials() {
+        removePreferenceKey(keyCredentials)
+        removePreferenceKey(keyPassword)
+    }
+
+    private fun removePreferenceKey(key: String){
+        sharedPrefs.edit().remove(key).apply()
+    }*/
 
 }
