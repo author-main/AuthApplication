@@ -123,6 +123,7 @@ class AuthEncryptPasswordStore: AuthPasswordStore {
         !sharedPrefs.getString(keyPassword, null).isNullOrBlank()
         // sharedPrefs.getBoolean(keyCredentials, false)
 
+
     override fun getCryptoObject(): Cipher? {
         val ks = getKeyStore() ?: return null
         return try {
