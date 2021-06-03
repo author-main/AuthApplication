@@ -10,6 +10,9 @@ import android.view.Window
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 
+const val defaultStringResource = ""
+const val defaultColorResource  = Color.TRANSPARENT
+
 fun validateMail(email: String): Boolean {
     return !(email.isBlank() || !Patterns.EMAIL_ADDRESS.matcher(email).matches())
 }
@@ -19,7 +22,7 @@ fun getStringResource(id: Int): String =
             AuthApplication.applicationContext().getString(id)
         }
         catch (e: Exception){
-            ""
+            defaultStringResource
         }
 
 
@@ -31,7 +34,7 @@ fun getColorResource(id: Int): Int =
             )
         }
         catch (e: Exception){
-            Color.TRANSPARENT
+            defaultColorResource
         }
 
 
