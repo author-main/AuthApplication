@@ -39,11 +39,13 @@ fun getColorResource(id: Int): Int =
 
 
 fun setDialogStyle(dialog: AlertDialog, noTitle: Boolean = false) {
-    dialog.setCanceledOnTouchOutside(false)
-    dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-    dialog.window?.setBackgroundDrawableResource(R.drawable.background_dialog)
-    if (noTitle)
-        dialog.window?.requestFeature(Window.FEATURE_NO_TITLE)
+    with(dialog) {
+        setCanceledOnTouchOutside(false)
+        window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        window?.setBackgroundDrawableResource(R.drawable.background_dialog)
+        if (noTitle)
+            window?.requestFeature(Window.FEATURE_NO_TITLE)
+    }
 }
 
 
