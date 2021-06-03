@@ -67,7 +67,8 @@ class AuthEncryptPasswordStore: AuthPasswordStore {
             keyStore
         } catch (e: Exception) {
             keyStore?.deleteEntry(alias)
-            clearCredentials()
+            sharedPrefs.edit().remove(keyPassword).apply()
+            //clearCredentials()
             null
         }
     }
@@ -90,11 +91,10 @@ class AuthEncryptPasswordStore: AuthPasswordStore {
         } catch (e: Exception){}
     }
 
-    private fun clearCredentials() {
-        /*removePreferenceKey(keyCredentials)
-        removePreferenceKey(keyPassword)*/
-        sharedPrefs.edit().remove(keyPassword).apply()
-    }
+    /*private fun clearCredentials() {
+        removePreferenceKey(keyCredentials)
+        removePreferenceKey(keyPassword)
+    }*/
 
     private fun encrypt(encryptionKey: PublicKey, data: ByteArray): String? {
         return try {
