@@ -3,6 +3,7 @@ package example.com.authapplication.stores
 import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.FragmentActivity
+import example.com.authapplication.AuthApplication
 import example.com.authapplication.dialogs.DialogProgress
 import example.com.authapplication.dialogs.DialogRegister
 import example.com.authapplication.dialogs.DialogRestore
@@ -87,5 +88,12 @@ class DialogStore(private var context: Context){
         dialogProgress?.dismiss()
         dialogProgress = null
     }
+
+  /*  class EasyClass<T, V>(s: T, i: V){
+        val name = s
+        val old  = i
+    }
+
+    val eClass = EasyClass<String, Int>("fuck", 20)*/
 
 }

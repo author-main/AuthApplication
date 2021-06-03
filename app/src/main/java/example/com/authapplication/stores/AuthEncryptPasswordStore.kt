@@ -67,8 +67,7 @@ class AuthEncryptPasswordStore: AuthPasswordStore {
             keyStore
         } catch (e: Exception) {
             keyStore?.deleteEntry(alias)
-            sharedPrefs.edit().remove(keyPassword).apply()
-            //clearCredentials()
+            clearCredentials()
             null
         }
     }
@@ -86,11 +85,16 @@ class AuthEncryptPasswordStore: AuthPasswordStore {
             encryptPassword?.let {
                 sharedPrefs.edit().putString(keyPassword, encryptPassword).apply()
                 /*putPreferenceValue(keyPassword, encryptPassword)
-                putPreferenceValue(keyCredentials, true)*/
+                  putPreferenceValue(keyCredentials, true)*/
             }
         } catch (e: Exception){}
     }
 
+    private fun clearCredentials() {
+        /*removePreferenceKey(keyCredentials)
+        removePreferenceKey(keyPassword)*/
+        sharedPrefs.edit().remove(keyPassword).apply()
+    }
 
     private fun encrypt(encryptionKey: PublicKey, data: ByteArray): String? {
         return try {
@@ -116,10 +120,8 @@ class AuthEncryptPasswordStore: AuthPasswordStore {
     }
 
     override fun existPasswordStore() =
-        sharedPrefs.getString(keyPassword, null) != null
-        //sharedPrefs.getBoolean(keyCredentials, false)
-
-
+        !sharedPrefs.getString(keyPassword, null).isNullOrBlank()
+        // sharedPrefs.getBoolean(keyCredentials, false)
 
     override fun getCryptoObject(): Cipher? {
         val ks = getKeyStore() ?: return null
@@ -133,21 +135,16 @@ class AuthEncryptPasswordStore: AuthPasswordStore {
         }
     }
 
-
     /*private fun <T> putPreferenceValue(key: String, value: T){
-        if (value is String)
-            sharedPrefs.edit().putString(key, value).apply()
-        if (value is Boolean)
-            sharedPrefs.edit().putBoolean(key, value).apply()
+      if (value is String)
+          sharedPrefs.edit().putString(key, value).apply()
+      if (value is Boolean)
+          sharedPrefs.edit().putBoolean(key, value).apply()
 
-    }
-       private fun clearCredentials() {
-        removePreferenceKey(keyCredentials)
-        removePreferenceKey(keyPassword)
-    }
+  }
 
-    private fun removePreferenceKey(key: String){
-        sharedPrefs.edit().remove(key).apply()
-    }*/
+  private fun removePreferenceKey(key: String){
+      sharedPrefs.edit().remove(key).apply()
+  }*/
 
 }
