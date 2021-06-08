@@ -238,7 +238,6 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-
     private fun authenticationBiometricComplete(cryptoObject: Cipher?) {
         if (cryptoObject != null) {
             val email    = dataBinding.editTextEmail.text.toString()
