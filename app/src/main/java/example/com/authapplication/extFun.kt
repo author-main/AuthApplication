@@ -1,11 +1,8 @@
 package example.com.authapplication
 
-import android.content.res.Resources
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.util.Log
 import android.util.Patterns
-import android.view.ViewGroup
 import android.view.Window
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat

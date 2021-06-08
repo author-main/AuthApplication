@@ -3,14 +3,9 @@ package example.com.authapplication.ui
 import android.annotation.SuppressLint
 import android.graphics.Rect
 import android.os.Bundle
-import android.text.Layout
-import android.text.Spannable
-import android.text.SpannableString
-import android.text.style.AlignmentSpan
 import android.view.MotionEvent
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.databinding.DataBindingUtil
@@ -19,9 +14,6 @@ import example.com.authapplication.*
 import example.com.authapplication.data.AuthAction
 import example.com.authapplication.data.AuthValue
 import example.com.authapplication.databinding.ActivityFullscreenBinding
-import example.com.authapplication.dialogs.DialogProgress
-import example.com.authapplication.dialogs.DialogRegister
-import example.com.authapplication.dialogs.DialogRestore
 import example.com.authapplication.message_handler.MessageHandler
 import example.com.authapplication.mvvm.AuthViewModel
 import kotlinx.coroutines.*
@@ -150,10 +142,12 @@ class LoginActivity : AppCompatActivity() {
                 symbols[index]?.text = sym
                 delay(400)
                 symbols[index]?.text = hiddenSymbol
-                val email = dataBinding.editTextEmail.text.toString()
-                if (password.length == 5 && isCorrectEmail(email)) {
-                    viewModel.showProgress()
-                    viewModel.signIn(email, password)
+                if (password.length == 5){
+                    val email = dataBinding.editTextEmail.text.toString()
+                    if (isCorrectEmail(email)) {
+                        viewModel.showProgress()
+                        viewModel.signIn(email, password)
+                    }
                 }
             }
         } else {
