@@ -136,6 +136,9 @@ class AuthEncryptPasswordStore: AuthPasswordStore {
         }
     }
 
+
+    
+
     /*private fun <T> putPreferenceValue(key: String, value: T){
       if (value is String)
           sharedPrefs.edit().putString(key, value).apply()
